@@ -25,17 +25,11 @@ param(
     [switch]$WithSettings,
     [switch]$WithHooksJson,
     [switch]$WithHooksScripts,
-    [switch]$WithClaudeMd,
-    [switch]$Help
+    [switch]$WithClaudeMd
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-
-if ($Help) {
-    Get-Help $MyInvocation.MyCommand.Definition -Detailed
-    exit 0
-}
 
 $RepoDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $ClaudeDir = Join-Path $env:USERPROFILE '.claude'
