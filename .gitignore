@@ -1,0 +1,64 @@
+# Sensitive / machine-specific
+settings.local.json
+**/settings.local.json
+
+# Logs
+*.log
+logs/
+
+# Auto-generated data (large)
+debug/
+file-history/
+projects/
+plans/
+cache/
+
+# Runtime state
+memory/
+session-env/
+shell-snapshots/
+paste-cache/
+tasks/
+todos/
+teams/
+agent-context/
+ralf-state.local.md
+ralf-*/
+
+# Telemetry / analytics
+telemetry/
+statsig/
+
+# History / stats
+history.jsonl
+stats-cache.json
+
+# Downloads
+downloads/
+
+# Self-referencing symlinks (should not be tracked)
+commands/commands
+skills/skills
+agents/agents
+scripts/scripts
+
+# Python bytecode
+__pycache__/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# PowerShell backups
+*.ps1.bak
+
+# Local testing
+test-output/

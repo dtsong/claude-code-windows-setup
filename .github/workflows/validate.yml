@@ -1,0 +1,99 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  powershell-validation:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: PowerShell syntax checks
+        shell: pwsh
+        run: |
+          $hasErrors = $false
+          $scripts = @('Install.ps1') +
+            @(Get-ChildItem hooks/*.ps1 -ErrorAction SilentlyContinue) +
+            @(Get-ChildItem scripts/*.ps1 -ErrorAction SilentlyContinue)
+          foreach ($script in $scripts) {
+            $path = if ($script -is [string]) { $script } else { $script.FullName }
+            $parseErrors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile(
+              $path, [ref]$null, [ref]$parseErrors
+            )
+            if ($parseErrors) {
+              Write-Error "Syntax error in ${path}: $parseErrors"
+              $hasErrors = $true
+            } else {
+              Write-Host "OK: $path"
+            }
+          }
+          if ($hasErrors) { exit 1 }
+
+      - name: Validate JSON files
+        shell: pwsh
+        run: |
+          Get-Content settings.json | ConvertFrom-Json | Out-Null
+          Write-Host "OK: settings.json"
+          Get-Content hooks.json | ConvertFrom-Json | Out-Null
+          Write-Host "OK: hooks.json"
+
+      - name: Installer smoke test (isolated)
+        shell: pwsh
+        env:
+          CLAUDE_DIR: ${{ runner.temp }}/claude
+        run: |
+          .\Install.ps1 -Help
+          .\Install.ps1 -ListSkills
+          .\Install.ps1 -DryRun
+          .\Install.ps1 -Preset skills -ConflictPolicy fail
+          .\Install.ps1 -Uninstall
+          .\Install.ps1 -Preset core -ConflictPolicy fail
+          .\Install.ps1 -Uninstall
+
+  content-validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate JSON files
+        run: |
+          python3 -m json.tool settings.json >/dev/null
+          python3 -m json.tool hooks.json >/dev/null
+
+      - name: Check markdown files exist
+        run: |
+          test -f README.md
+          test -f CLAUDE.md
+          test -f ARCHITECTURE.md
+          test -f CONTRIBUTING.md
+          test -f CHANGELOG.md
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

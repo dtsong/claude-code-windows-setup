@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreCompact": [
+      {
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh -NoProfile -File \"%USERPROFILE%\\.claude\\hooks\\pre-compact-handover.ps1\""
+          }
+        ]
+      }
+    ]
+  }
+}
