@@ -2,6 +2,9 @@
 # Pre-Compact Handover Hook
 # Auto-save session context before compaction.
 # Fires on PreCompact hook to preserve decisions and context.
+#
+# Requires: claude CLI in PATH (uses `claude -p` for summarization;
+#           falls back to a minimal template if unavailable)
 #===============================================================================
 
 $ErrorActionPreference = 'Stop'

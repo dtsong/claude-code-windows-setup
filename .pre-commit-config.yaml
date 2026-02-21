@@ -12,6 +12,8 @@ repos:
     hooks:
       - id: gitleaks
 
+  # Local hooks use bash wrappers (run via Git Bash on Windows).
+  # pwsh is called from within the scripts where needed.
   - repo: local
     hooks:
       - id: powershell-syntax
