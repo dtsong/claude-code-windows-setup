@@ -94,10 +94,10 @@ CORS(app, origins=['https://yourdomain.com'], supports_credentials=True)
 ```python
 class IPBlockMiddleware:
     BLOCKED_IPS = {'1.2.3.4', '5.6.7.8'}
-    
+
     def __init__(self, get_response):
         self.get_response = get_response
-    
+
     def __call__(self, request):
         ip = request.META.get('REMOTE_ADDR')
         if ip in self.BLOCKED_IPS:

@@ -1,0 +1,29 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-json
+        files: ^(settings|hooks)\.json$
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.22.1
+    hooks:
+      - id: gitleaks
+
+  - repo: local
+    hooks:
+      - id: powershell-syntax
+        name: PowerShell syntax check
+        language: script
+        entry: ./hooks/pre-commit-pwsh-syntax.sh
+        files: \.ps1$
+        types: [file]
+
+      - id: check-required-docs
+        name: Check required documentation files exist
+        language: script
+        entry: ./hooks/pre-commit-check-docs.sh
+        pass_filenames: false
+        always_run: true

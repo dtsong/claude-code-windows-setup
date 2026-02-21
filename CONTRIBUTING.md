@@ -39,6 +39,30 @@ Thanks for contributing.
 - Keep changes focused (small PRs merge faster).
 - Link the issue in the PR description (e.g. `Closes #123` or `Refs #123`) so the rationale is easy to find later.
 
+## Pre-Commit Hooks
+
+This repository uses [pre-commit](https://pre-commit.com/) to catch issues before they reach CI.
+
+**Setup (one-time):**
+
+```bash
+pip install pre-commit
+pre-commit install
+```
+
+Hooks run automatically on `git commit` and check:
+- JSON validity (`settings.json`, `hooks.json`)
+- Trailing whitespace and missing final newlines
+- Secret detection via gitleaks
+- PowerShell syntax (requires `pwsh`; skips gracefully if not installed)
+- Required documentation files exist
+
+To skip a specific hook when needed:
+
+```bash
+SKIP=powershell-syntax git commit -m "message"
+```
+
 ## Local Validation
 
 Run these checks before opening a PR:

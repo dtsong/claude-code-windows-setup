@@ -160,7 +160,7 @@ Implements #42, #43, #44"
 for ISSUE in "${ISSUES[@]}"; do
   git checkout feat/$ISSUE-description
   git push -u origin HEAD
-  
+
   gh pr create \
     --title "feat: implement $(gh issue view $ISSUE --json title -q .title)" \
     --body "## Summary
@@ -225,7 +225,7 @@ Closes: #42, #43, #44
 
 Commits:
 - feat: implement security scan gate (#42)
-- feat: implement coverage gate (#43)  
+- feat: implement coverage gate (#43)
 - feat: implement dependency audit gate (#44)
 ```
 
@@ -270,7 +270,7 @@ Commits:
 /implement 42 43 44 --combined
 /implement 42-44 --combined
 
-# Issue range, separate PRs  
+# Issue range, separate PRs
 /implement 42-48
 
 # Phase-based batch (all Phase 1 issues)
@@ -290,4 +290,3 @@ Combined mode:
 - Stop and report the blocker
 - Options: fix and continue, or abort and split into separate PRs
 - Don't leave partial implementations uncommitted
-

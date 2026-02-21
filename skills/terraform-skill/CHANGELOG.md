@@ -45,6 +45,3 @@ Changes:
 Users must reinstall:
   /plugin marketplace remove terraform-skill
   /plugin marketplace add antonbabenko/terraform-skill
-
-
-
