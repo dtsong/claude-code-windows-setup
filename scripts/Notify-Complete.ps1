@@ -28,29 +28,22 @@ if (Get-Command Send-ToastNotification -ErrorAction SilentlyContinue) {
     Send-ToastNotification -Title 'Claude Agent Complete' -Message "${Branch}: $Summary"
 }
 else {
-    # Fallback: use BurntToast module if available
-    if (Get-Module -ListAvailable -Name BurntToast -ErrorAction SilentlyContinue) {
-        Import-Module BurntToast
-        New-BurntToastNotification -Text 'Claude Agent Complete', "${Branch}: $Summary"
+    # Fallback: use Windows built-in notification API (no external modules)
+    try {
+        [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
+        $template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent(
+            [Windows.UI.Notifications.ToastTemplateType]::ToastText02
+        )
+        $textNodes = $template.GetElementsByTagName('text')
+        $textNodes.Item(0).AppendChild($template.CreateTextNode('Claude Agent Complete')) | Out-Null
+        $textNodes.Item(1).AppendChild($template.CreateTextNode("${Branch}: $Summary")) | Out-Null
+        $toast = [Windows.UI.Notifications.ToastNotification]::new($template)
+        $notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('Claude Code')
+        $notifier.Show($toast)
     }
-    else {
-        # Fallback: use Windows built-in notification via PowerShell
-        try {
-            [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
-            $template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent(
-                [Windows.UI.Notifications.ToastTemplateType]::ToastText02
-            )
-            $textNodes = $template.GetElementsByTagName('text')
-            $textNodes.Item(0).AppendChild($template.CreateTextNode('Claude Agent Complete')) | Out-Null
-            $textNodes.Item(1).AppendChild($template.CreateTextNode("${Branch}: $Summary")) | Out-Null
-            $toast = [Windows.UI.Notifications.ToastNotification]::new($template)
-            $notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('Claude Code')
-            $notifier.Show($toast)
-        }
-        catch {
-            # Last resort: console output only
-            Write-Host "NOTIFICATION: Claude Agent Complete - ${Branch}: $Summary"
-        }
+    catch {
+        # Last resort: console output only
+        Write-Host "NOTIFICATION: Claude Agent Complete - ${Branch}: $Summary"
     }
 }
 

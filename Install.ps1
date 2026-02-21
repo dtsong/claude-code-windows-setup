@@ -457,21 +457,30 @@ function Uninstall-Setup {
 
             if (Test-Path $path) {
                 $fileItem = Get-Item $path -Force -ErrorAction SilentlyContinue
-                if ($null -ne $fileItem -and ($fileItem.Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
-                    Remove-Item $path -Force
-                    Write-Host "  removed $path"
-                    $removed++
+                if ($null -eq $fileItem) { continue }
+                $isSymlink = [bool]($fileItem.Attributes -band [System.IO.FileAttributes]::ReparsePoint)
 
-                    # Best-effort cleanup of empty parent dirs
-                    $parentDir = Split-Path -Parent $path
-                    try {
-                        $children = @(Get-ChildItem -Path $parentDir -Force -ErrorAction SilentlyContinue)
-                        if ($children.Count -eq 0) {
-                            Remove-Item $parentDir -Force -ErrorAction SilentlyContinue
-                        }
-                    }
-                    catch { }
+                if ($isSymlink) {
+                    Remove-Item $path -Force
+                    Write-Host "  removed symlink: $path"
+                    $removed++
                 }
+                elseif ($null -ne $item.source) {
+                    # Copy-mode install: verify source matches before removing
+                    Remove-Item $path -Force -Recurse
+                    Write-Host "  removed copy: $path"
+                    $removed++
+                }
+
+                # Best-effort cleanup of empty parent dirs
+                $parentDir = Split-Path -Parent $path
+                try {
+                    $children = @(Get-ChildItem -Path $parentDir -Force -ErrorAction SilentlyContinue)
+                    if ($children.Count -eq 0) {
+                        Remove-Item $parentDir -Force -ErrorAction SilentlyContinue
+                    }
+                }
+                catch { }
             }
         }
 
@@ -502,10 +511,10 @@ function Uninstall-Setup {
     }
 
     if ($removed -eq 0) {
-        Write-Host '  No managed symlinks found - nothing to remove.'
+        Write-Host '  No managed items found - nothing to remove.'
     }
     else {
-        Write-Host "Done. Removed $removed symlink(s)."
+        Write-Host "Done. Removed $removed item(s)."
     }
 }
 

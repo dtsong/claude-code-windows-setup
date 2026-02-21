@@ -93,12 +93,12 @@ claude-code-windows-setup/
 │   ├── Init-Project.ps1
 │   ├── Launch-Agent.ps1
 │   ├── Run-Agent.ps1
-│   ├── Send-AgentBroadcast.ps1
-│   ├── Get-AgentStatus.ps1
+│   ├── Agent-Broadcast.ps1
+│   ├── Agent-Status.ps1
 │   ├── Find-Workspaces.ps1
-│   ├── Start-Workspace.ps1
-│   ├── Send-Completion.ps1
-│   └── Show-TaskBoard.ps1
+│   ├── Launch-Workspace.ps1
+│   ├── Notify-Complete.ps1
+│   └── Task-Board.ps1
 ├── workspaces/             # Project-specific context templates
 │   ├── FORMAT.md
 │   ├── _example/
@@ -225,7 +225,7 @@ All skills in this repository must comply with the Skill Governance Specificatio
 Pre-commit hooks validate: token budgets, frontmatter, reference integrity,
 cross-skill isolation, and suite context load ceiling.
 
-Full spec: `pipeline/specs/SKILL-GOVERNANCE-SPEC.md`
+Full spec: see Skill Governance sections in `CLAUDE.md`
 
 ## Reference
 
