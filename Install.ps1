@@ -25,16 +25,23 @@ param(
     [switch]$WithSettings,
     [switch]$WithHooksJson,
     [switch]$WithHooksScripts,
-    [switch]$WithClaudeMd
+    [switch]$WithClaudeMd,
+    [switch]$Help
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+if ($Help) {
+    Get-Help $MyInvocation.MyCommand.Definition -Detailed
+    exit 0
+}
+
 $RepoDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $ClaudeDir = Join-Path $env:USERPROFILE '.claude'
 $ManagedDir = Join-Path $ClaudeDir '.managed'
 $ManifestPath = Join-Path $ManagedDir 'claude-code-windows-setup.json'
+$script:ManifestCache = $null
 
 # --- Symlink capability detection ---
 $UseCopy = $false
@@ -78,6 +85,20 @@ function Test-ManagedLink {
         # On PS 5.1, .Target may be an array
         if ($resolved -is [array]) { $resolved = $resolved[0] }
         return ($resolved -eq $ExpectedTarget)
+    }
+    return $false
+}
+
+function Test-ManagedItem {
+    param([string]$Path)
+    if (-not (Test-Path $ManifestPath)) { return $false }
+    if ($null -eq $script:ManifestCache) {
+        try { $script:ManifestCache = Get-Content -Path $ManifestPath -Raw | ConvertFrom-Json }
+        catch { $script:ManifestCache = $null; return $false }
+    }
+    if ($null -eq $script:ManifestCache -or $null -eq $script:ManifestCache.items) { return $false }
+    foreach ($item in $script:ManifestCache.items) {
+        if ($item.path -eq $Path) { return $true }
     }
     return $false
 }
@@ -248,7 +269,9 @@ function Get-Conflicts {
             if (Test-Path $targetPath) {
                 $item = Get-Item $targetPath -Force -ErrorAction SilentlyContinue
                 if ($null -ne $item -and -not ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint)) {
-                    $conflicts += $targetPath
+                    if (-not (Test-ManagedItem -Path $targetPath)) {
+                        $conflicts += $targetPath
+                    }
                 }
             }
             continue
@@ -368,11 +391,16 @@ function Install-Setup {
                     $isSymlink = [bool]($existingItem.Attributes -band [System.IO.FileAttributes]::ReparsePoint)
                 }
                 if (-not $isSymlink) {
-                    if ($ConflictPolicy -eq 'skip') {
+                    if (Test-ManagedItem -Path $dst) {
+                        Write-Host "  replacing previously installed: $dst"
+                    }
+                    elseif ($ConflictPolicy -eq 'skip') {
                         Write-Host "  conflict: $dst exists and is not a symlink (skipped)"
                         continue
                     }
-                    Write-Die "Conflict: $dst exists and is not a symlink"
+                    else {
+                        Write-Die "Conflict: $dst exists and is not a symlink"
+                    }
                 }
             }
 
