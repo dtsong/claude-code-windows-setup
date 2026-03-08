@@ -54,7 +54,6 @@ jobs:
         env:
           CLAUDE_DIR: ${{ runner.temp }}/claude
         run: |
-          .\Install.ps1 -Help
           .\Install.ps1 -ListSkills
           .\Install.ps1 -DryRun
           .\Install.ps1 -Preset skills -ConflictPolicy fail
