@@ -124,10 +124,7 @@ Auto-detect gates in order: **build → typecheck → lint → test**
 | **Go** | `go.mod` exists | `go build ./...`, `go vet ./...`, `go test ./...` |
 | **Rust** | `Cargo.toml` exists | `cargo build`, `cargo clippy -- -D warnings`, `cargo test` |
 
-**Node.js commands** must be wrapped per CLAUDE.md:
-```bash
-source ~/.nvm/nvm.sh && nvm use default --silent && <cmd>
-```
+> Node.js commands must be wrapped per CLAUDE.md NVM conventions when `~/.nvm/nvm.sh` exists.
 
 Apply constraint modifiers:
 - `skip:<name>` removes any gate whose command contains that name (e.g. `skip:lint` removes the lint gate)
@@ -259,10 +256,11 @@ Run ALL gate commands in order. Capture output for each:
 
 ```bash
 # Example for Node.js
-source ~/.nvm/nvm.sh && nvm use default --silent && npm run build
-source ~/.nvm/nvm.sh && nvm use default --silent && npx tsc --noEmit
-source ~/.nvm/nvm.sh && nvm use default --silent && npm run lint
-source ~/.nvm/nvm.sh && nvm use default --silent && npm test
+# Note: wrap with nvm per CLAUDE.md conventions if ~/.nvm/nvm.sh exists
+npm run build
+npx tsc --noEmit
+npm run lint
+npm test
 ```
 
 Record results in state file under the issue's Progress entry.
@@ -430,4 +428,4 @@ Update state file: `active: false`, `phase: "complete"`.
 7. **Checkpoint after every issue** — enable resume on interruption
 8. **Failed issues don't block unrelated issues** — only issues with explicit dependency markers are affected
 9. **Follow existing patterns** — match code style, file organization, naming conventions of the project
-10. **Node.js commands** must be wrapped: `source ~/.nvm/nvm.sh && nvm use default --silent && <cmd>`
+10. **Node.js commands** must be wrapped per CLAUDE.md NVM conventions when `~/.nvm/nvm.sh` exists
