@@ -1,6 +1,6 @@
 # Claude Code Setup - Project Guide
 
-This repository contains a portable Claude Code configuration system -- 38 agent personas, 100+ structured skills, multi-agent deliberation, session persistence, lifecycle hooks, and a permissions system optimized for Windows native PowerShell development.
+This repository contains a portable Claude Code configuration system -- 21 council agent personas, 100+ structured skills, multi-agent deliberation, session persistence, lifecycle hooks, and a permissions system optimized for Windows native PowerShell development.
 
 ## Quick Install (For New Users)
 
@@ -20,7 +20,7 @@ For a minimal install (skills only):
 ## What This Project Does
 
 This setup enables:
-- **38 agent personas** (21 Council + 17 Academy) for multi-agent deliberation
+- **21 council agent personas** for multi-agent deliberation
 - **100+ structured skills** across 20 council departments + standalone packs
 - **8 deliberation modes** from quick brainstorm to deep audit
 - **Windows toast notifications** identifying which agent needs attention
@@ -39,20 +39,18 @@ claude-code-windows-setup/
 ├── Install.ps1             # PowerShell installer (presets: skills/core/full)
 ├── settings.json           # Merged settings: env + hooks + permissions
 ├── hooks.json              # Standalone PreCompact hook config
-├── agents/                 # 38 agent personas (21 council + 17 academy)
+├── agents/                 # 21 council agent personas
 │   ├── council-architect.md
 │   ├── council-advocate.md
-│   ├── ...                 # 19 more council agents
-│   ├── academy-sage.md
-│   └── ...                 # 16 more academy agents
-├── commands/               # 26 slash commands + shared engine
+│   └── ...                 # 19 more council agents
+├── commands/               # Slash commands + shared engine
 │   ├── _council-engine.md  # Shared deliberation engine (~1200 lines)
 │   ├── council.md          # Council theme layer
-│   ├── academy.md          # Academy theme layer
 │   ├── brainstorm.md       # Quick 3-agent gut check
 │   ├── looper.md           # Issue-to-PR with retry loops
 │   ├── implement.md        # Implement GitHub issues
 │   ├── ralf.md             # Autonomous PRD executor
+│   ├── ship.md             # Post-council pipeline: issues to merged PRs
 │   ├── handover.md         # Session knowledge transfer
 │   ├── g.md                # Git porcelain
 │   ├── ops.md              # Operations center
@@ -69,10 +67,12 @@ claude-code-windows-setup/
 │   ├── diagnose.md         # Diagnose UI/CSS bugs
 │   ├── fix.md              # Apply and verify fixes
 │   ├── map.md              # Map route component trees
-│   └── qa.md               # Full frontend QA pipeline
+│   ├── qa.md               # Full frontend QA pipeline
+│   └── references/         # Shared reference files for commands
+│       ├── ship-review-rules.md
+│       └── ship-state-schema.md
 ├── skills/                 # 100+ structured skill templates
 │   ├── council/            # 20 departments x 2-3 skills each
-│   ├── academy/            # Academy theme skills
 │   ├── git-workflows/      # Git operations
 │   ├── github-workflow/    # GitHub interactions
 │   ├── language-conventions/ # Python, TypeScript, Terraform refs
@@ -80,7 +80,13 @@ claude-code-windows-setup/
 │   ├── dbt-skill/          # dbt data engineering
 │   ├── tdd/                # Test-driven development
 │   ├── frontend-qa/        # Frontend QA pipeline (4 sub-skills)
-│   └── ...                 # 7 more standalone skill packs
+│   ├── soc-security/       # SoC hardware security skills
+│   ├── research-consulting-skills/  # Research & consulting workflows
+│   ├── data-engineering-skills/     # Python data engineering & AI integration
+│   ├── generate-diagram/   # Diagram generation
+│   ├── evaluate-diagram/   # Diagram evaluation
+│   ├── generate-plot/      # Plot generation
+│   └── ...                 # Additional standalone skill packs
 ├── hooks/                  # Lifecycle hook scripts (.ps1)
 │   ├── _helpers.ps1        # Shared helper functions
 │   ├── notify.ps1          # Notification when Claude needs input
@@ -164,7 +170,7 @@ This project does not require Node.js, but Claude Code itself does. Recommended 
 
 ### When modifying the deliberation engine:
 - All workflow logic lives in `commands\_council-engine.md`
-- Theme files (`council.md`, `academy.md`) supply 14 configuration variables
+- Theme file (`council.md`) supplies 14 configuration variables
 - Do not duplicate engine logic in theme files
 
 ## Testing Changes

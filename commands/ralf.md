@@ -114,7 +114,7 @@ Generate PRD with this structure:
 
 ## Quality Gates
 
-These commands must pass for ALL stories:
+These commands must pass for ALL stories (wrap with nvm if applicable: `source ~/.nvm/nvm.sh && nvm use default --silent && <cmd>`):
 - `npm run build` — Build passes
 - `npx tsc --noEmit` — Type checking (if applicable)
 - `npm run lint` — Linting (if applicable)
@@ -219,11 +219,11 @@ After all stories are complete, run two-stage verification:
 **Stage 1: Quality Gates** (existing behavior)
 
 ```bash
-# Run each quality gate command
-npm run build
-npx tsc --noEmit
-npm run lint
-npm test
+# Run each quality gate command (wrap with nvm if applicable)
+source ~/.nvm/nvm.sh && nvm use default --silent && npm run build
+source ~/.nvm/nvm.sh && nvm use default --silent && npx tsc --noEmit
+source ~/.nvm/nvm.sh && nvm use default --silent && npm run lint
+source ~/.nvm/nvm.sh && nvm use default --silent && npm test
 ```
 
 **Stage 2: Contract Sweep**
