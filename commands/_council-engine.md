@@ -1,6 +1,6 @@
 # Shared Deliberation Engine
 
-This is the **theme-agnostic orchestration core** used by both `/council` and `/academy` (and future themed variants). It is not a standalone command — it is referenced by themed command files that supply configuration variables.
+This is the **theme-agnostic orchestration core** for `/council` (and future themed variants). It is not a standalone command — it is referenced by themed command files that supply configuration variables.
 
 ---
 
@@ -8,23 +8,23 @@ This is the **theme-agnostic orchestration core** used by both `/council` and `/
 
 Each themed command file must define these variables before referencing this engine:
 
-| Variable | Purpose | Example (Council) | Example (Academy) |
-|----------|---------|--------------------|--------------------|
-| `$THEME_ID` | Directory prefix for sessions, teams, artifacts | `council` | `academy` |
-| `$THEME_NAME` | Display name in user-facing messages | `Council` | `Officers Academy` |
-| `$ROSTER_TABLE` | Agent roster with names, colors, files, subagent types | *(see council.md)* | *(see academy.md)* |
-| `$INTAKE_PROMPT` | Phase 0 question text | "What's the big idea?" | "What challenge brings you to the Officers Academy?" |
-| `$AGENT_FILE_PREFIX` | Filename prefix for agent personas | `council-` | `academy-` |
-| `$MODIFIER_RULES` | Mandatory bonuses and anti-redundancy penalties | *(see council.md)* | *(see academy.md)* |
-| `$CHALLENGE_RULES` | How Round 2 tension pairs are identified | Organic (from positions) | House tensions (structured) |
-| `$CONDUCTOR_PERSONA` | Agent file the conductor embodies | `council-steward` | `academy-professor` |
-| `$SESSION_DIR_ROOT` | Root path for sessions | `.claude/council/sessions/` | `.claude/academy/sessions/` |
-| `$TEAM_PREFIX` | Prefix for team names | `council-` | `academy-` |
-| `$GLOBAL_REGISTRY_PATH` | Path for cross-workspace registry | `~/.claude/council/global-registry.json` | `~/.claude/academy/global-registry.json` |
-| `$INDEX_PATH` | Relative path to workspace index | `.claude/council/index.json` | `.claude/academy/index.json` |
-| `$PHASE_LABELS` | Themed labels for each phase | *(see council.md)* | *(see academy.md)* |
-| `$ASSEMBLY_LABEL` | Header for the assembly table | "Council Assembly — Agent Selection" | "Academy Assembly — Unit Selection" |
-| `$EXTRA_MECHANICS` | Theme-specific mechanics to execute during workflow | *(none)* | Support Conversations, Class Promotion, House Tensions |
+| Variable | Purpose | Example |
+|----------|---------|---------|
+| `$THEME_ID` | Directory prefix for sessions, teams, artifacts | `council` |
+| `$THEME_NAME` | Display name in user-facing messages | `Council` |
+| `$ROSTER_TABLE` | Agent roster with names, colors, files, subagent types | *(see council.md)* |
+| `$INTAKE_PROMPT` | Phase 0 question text | "What's the big idea?" |
+| `$AGENT_FILE_PREFIX` | Filename prefix for agent personas | `council-` |
+| `$MODIFIER_RULES` | Mandatory bonuses and anti-redundancy penalties | *(see council.md)* |
+| `$CHALLENGE_RULES` | How Round 2 tension pairs are identified | Organic (from positions) |
+| `$CONDUCTOR_PERSONA` | Agent file the conductor embodies | `council-steward` |
+| `$SESSION_DIR_ROOT` | Root path for sessions | `.claude/council/sessions/` |
+| `$TEAM_PREFIX` | Prefix for team names | `council-` |
+| `$GLOBAL_REGISTRY_PATH` | Path for cross-workspace registry | `~/.claude/council/global-registry.json` |
+| `$INDEX_PATH` | Relative path to workspace index | `.claude/council/index.json` |
+| `$PHASE_LABELS` | Themed labels for each phase | *(see council.md)* |
+| `$ASSEMBLY_LABEL` | Header for the assembly table | "Council Assembly — Agent Selection" |
+| `$EXTRA_MECHANICS` | Theme-specific mechanics to execute during workflow | *(none for council)* |
 
 ---
 
@@ -39,18 +39,19 @@ Parse `$ARGUMENTS` using this priority order — **first matching flag wins:**
 2. `--list [--all]` → List sessions (see [Session Management Commands](#session-management-commands)) and **EXIT**
 3. `--status` → Quick workspace session summary and **EXIT**
 4. `--archive <slug>` → Export session to GitHub issue and **EXIT**
-5. `--cleanup [--all]` → Review and clean stale sessions and **EXIT**
+5. `--lock <slug>` → Re-create GitHub issue from acceptance contract and **EXIT**
+6. `--cleanup [--all]` → Review and clean stale sessions and **EXIT**
 
 **Session modes** (start or resume a session):
-6. `--resume [<slug>] [--pick]` → Resume (see [Resume Logic](#resume-logic))
-7. `--brainstorm` → **brainstorm** mode
-8. `--quick` → **quick** mode
-9. `--deep` → **deep** mode
-10. `--auto` → **auto** mode
-11. `--guided` → **guided** mode
-12. `--meet` → **meeting** mode
-13. `--audit` → **audit** mode
-14. No flag → **standard** mode (default)
+7. `--resume [<slug>] [--pick]` → Resume (see [Resume Logic](#resume-logic))
+8. `--brainstorm` → **brainstorm** mode
+9. `--quick` → **quick** mode
+10. `--deep` → **deep** mode
+11. `--auto` → **auto** mode
+12. `--guided` → **guided** mode
+13. `--meet` → **meeting** mode
+14. `--audit` → **audit** mode
+15. No flag → **standard** mode (default)
 
 Strip the matched flag from `$ARGUMENTS`. Remaining text is the **idea**.
 
@@ -60,16 +61,16 @@ Strip the matched flag from `$ARGUMENTS`. Remaining text is the **idea**.
 |------|--------|--------|--------|-------------|--------|
 | brainstorm | 0 + inline | 3 (sonnet) | 0 | 0 | Inline chat only |
 | quick | 0, 2, 3(1-round), 4(light) | 3 | 1 | 1 | design-sketch.md, task list |
-| standard | 0, 1, 2, 3, 4, 5 | 3-7 | 3 | 6-7 | Full design doc, PRD |
-| deep | 0, 1, 2, 3, 4, 5D | 3-7 | 3 | 5-6 | Full design doc, PRD, audit report |
-| auto | 0, 2, 3, 4, 5 | 3-7 | 3 | 0 | Full design doc, PRD, code |
-| guided | 0, 1, 2, 3, 4, 5 | 3-7 | 3 + gates | 8+ | Full design doc, PRD |
+| standard | 0, 1, 2, 3, 4, 5 | 3-7 | 3 | 6-7 | Full design doc, PRD, GitHub issues |
+| deep | 0, 1, 2, 3, 4, 5D | 3-7 | 3 | 5-6 | Full design doc, PRD, audit report, GitHub issues |
+| auto | 0, 2, 3, 4, 5 | 3-7 | 3 | 0 | Full design doc, PRD, GitHub issues |
+| guided | 0, 1, 2, 3, 4, 5 | 3-7 | 3 + gates | 8+ | Full design doc, PRD, GitHub issues |
 | meeting | 0, 1(light), 2, 3-meeting | 3-7 | Meeting protocol | 2-3 | meeting-notes.md |
 | audit | 0, context, 5D | 3-5 | 0 | 2-3 | Deep audit report |
 
 ### Mode Interaction with `$EXTRA_MECHANICS`
 
-When the themed command defines `$EXTRA_MECHANICS` (e.g., Academy's support conversations, house tensions, class promotion), apply these rules per mode:
+When the themed command defines `$EXTRA_MECHANICS`, apply these rules per mode:
 
 | Mode | Extra Mechanics Behavior |
 |------|--------------------------|
@@ -108,6 +109,7 @@ SESSION MANAGEMENT:
   --list --all            List sessions across all workspaces
   --status                Quick workspace session summary
   --archive <slug>        Export session to GitHub issue
+  --lock <slug>          Re-create GitHub issue from acceptance contract
   --cleanup               Review and clean stale sessions
 
 OTHER:
@@ -186,7 +188,7 @@ Each agent manages a **department** of focused skills — structured prompt temp
 
 ### Skill Structure
 
-Skills are stored in `.claude/skills/council/` and are **shared across all themes**. Both `/council` and `/academy` agents reference the same skill files.
+Skills are stored in `.claude/skills/council/`.
 
 ```
 .claude/skills/council/
@@ -358,6 +360,8 @@ Slug: <slug>
       "status": "active",
       "agents": [],
       "skills_used": [],
+      "contract_generated": false,
+      "contract_issue": null,
       "archived_to": null
     }
   ]
@@ -862,7 +866,7 @@ Present a summary to the user inline, then reference the full notes file.
 
 **Quick mode:** Generate a **task list** (not a full PRD). Numbered tasks with brief descriptions. Present action path choice to user: team execution, ralf, or export. No Phase 5 — output is the sketch + task list.
 
-**Auto mode:** Generate PRD. Auto-approve without user review. Default to **team execution** action path.
+**Auto mode:** Generate PRD. Auto-approve without user review. Default to **Ship** action path (Path F: export issues then implement, review, and merge).
 
 ### 4.1 Generate PRD
 
@@ -912,6 +916,86 @@ Create a backward-compatible symlink for `/ralf` and `/launch`:
 ln -sf "$SESSION_DIR/prd.md" "$WORKSPACE/.claude/prd/prd-<slug>.md"
 ```
 
+### 4.1b Generate Acceptance Contract
+
+After writing the PRD, generate a structured acceptance contract from its criteria:
+
+1. **Read the PRD** at `$SESSION_DIR/prd.md`
+2. **Extract acceptance criteria** from each user story (the `- [ ]` items under each `US-NNN`)
+3. **Assign verification method** per criterion based on keywords:
+   - "displays/shows/renders/UI" → `e2e-test` or `manual-check`
+   - "returns/accepts/rejects/validates" → `unit-test`
+   - "calls/sends/receives/integrates" → `integration-test`
+   - "builds/compiles" → `build-output`
+   - Default → `unit-test`
+4. **Assign test location hints** based on project conventions (from context scan)
+5. **Write the contract** to `$SESSION_DIR/acceptance-contract.md`:
+
+```markdown
+# Acceptance Contract: <Idea>
+Session: <id> | PRD: prd.md | Status: locked
+
+## Quality Gates
+| Gate | Command | Required |
+|------|---------|----------|
+| build | `npm run build` | yes |
+| typecheck | `npx tsc --noEmit` | yes |
+
+## Acceptance Criteria
+
+### US-001: <Story title>
+
+#### AC-001: <Criterion text>
+- **Method:** unit-test | integration-test | e2e-test | build-output | manual-check | metric
+- **Test:** `path/to/test.ts` > "test description"
+- **Status:** pending
+- **Evidence:** —
+- **Verified-by:** —
+
+## Verification Summary
+| ID | Criterion | Method | Status | Evidence |
+|----|-----------|--------|--------|----------|
+| AC-001 | <short> | unit-test | pending | — |
+
+Progress: 0/N verified
+```
+
+6. **Create backward-compatible symlink:**
+   ```bash
+   ln -sf "$SESSION_DIR/acceptance-contract.md" "$WORKSPACE/.claude/prd/contract-<slug>.md"
+   ```
+
+7. **Generate BDD test stub files** from each criterion:
+   - Detect project test framework (Jest, Vitest, pytest, etc.) from context scan
+   - Create `describe/it` blocks with Given/When/Then structure per AC
+   - Stubs throw `Not implemented — AC-NNN pending` (guarantees RED on first run)
+   - Test file locations follow project conventions
+   - Write stubs to `$SESSION_DIR/test-stubs/` and note paths in the contract
+
+   **Generated stub example:**
+   ```typescript
+   // Generated from AC-001: User can create a new project
+   describe('US-001: Project Creation', () => {
+     describe('AC-001: User can create a new project', () => {
+       it('GIVEN a logged-in user WHEN they submit a project name THEN a new project is created', () => {
+         // TODO: Implement — this test must fail first (RED)
+         throw new Error('Not implemented — AC-001 pending');
+       });
+     });
+   });
+   ```
+
+8. **Auto-create GitHub issue** from the contract:
+   ```bash
+   gh issue create \
+     --title "[AC] <Idea> — Acceptance Contract" \
+     --label "acceptance-contract,tracking" \
+     --body "$CONTRACT_BODY"
+   ```
+   - Body contains task-list checkboxes from contract criteria + quality gates
+   - Store issue URL in contract file and session index (`contract_issue: "<url>"`)
+   - During execution, update GitHub issue checkboxes via `gh api` when criteria are verified
+
 ### 4.2 Task Decomposition
 
 Create tasks via `TaskCreate` for each user story. Set up dependencies with `TaskUpdate`.
@@ -938,6 +1022,10 @@ User Stories (<N> total):
 2. US-002: <title> — <1-line description>
 ...
 
+Acceptance Contract: <N> criteria across <N> stories
+Verification methods: <N> unit-test, <N> integration-test, <N> e2e-test, <N> manual-check
+Contract: .claude/$THEME_ID/sessions/<session-id>/acceptance-contract.md
+
 Does this scope match what you had in mind?
 ```
 Options:
@@ -963,6 +1051,8 @@ How would you like to proceed?
 ```
 
 Options:
+- **Ship (Recommended)** — Export issues, implement, review, and merge all PRs automatically via `/ship`
+- **Export to GitHub Issues** — Create one issue per user story with acceptance criteria and dependencies
 - **Team execution** — Assign tasks to agents
 - **Ralf handoff** — PRD goes to `/ralf` for autonomous execution
 - **Launch handoff** — PRD goes to `/launch` in a separate worktree
@@ -1010,6 +1100,29 @@ git -C $WORKSPACE add <changed-files>
 git -C $WORKSPACE commit -m "<type>(<scope>): <description>"
 ```
 
+#### Verification Sweep
+
+After all team agents complete their tasks, the conductor runs a contract verification sweep:
+
+1. Read `$SESSION_DIR/acceptance-contract.md`
+2. For each `pending` criterion: run the associated test or verification command, update status
+3. For `failed` criteria: re-assign to the appropriate agent for remediation
+4. Present the contract summary table to the user:
+
+```
+Acceptance Contract — Verification Summary
+
+| ID | Criterion | Method | Status | Evidence |
+|----|-----------|--------|--------|----------|
+| AC-001 | <short> | unit-test | verified | test-file:line |
+| AC-002 | <short> | e2e-test | failed | — |
+
+Progress: N/M verified | F failed | P pending-manual
+```
+
+5. **Block completion** until all non-manual criteria are `verified`
+6. Update the GitHub issue checkboxes via `gh api` for each verified criterion
+
 ### Path B: Ralf Handoff
 
 Tell the user to run:
@@ -1027,6 +1140,148 @@ Tell the user to run:
 ### Path D: Deep Audit
 
 Read and follow [Phase 5D: Deep Audit](#phase-5d-deep-audit).
+
+### Path E: GitHub Issues Export
+
+Export user stories from the PRD as individual GitHub issues with acceptance criteria and dependency tracking.
+
+1. **Read artifacts:**
+   - `$SESSION_DIR/prd.md` — extract user stories, acceptance criteria, technical notes
+   - `$SESSION_DIR/acceptance-contract.md` — extract verification methods and test locations
+
+2. **Detect repo context:**
+   ```bash
+   REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner)
+   ```
+   If `gh` fails, warn the user and abort: "GitHub CLI not authenticated. Run `gh auth login` first."
+
+3. **Create milestone** (with error discrimination):
+   ```bash
+   MILESTONE_RESULT=$(gh api repos/$REPO/milestones --method POST -f title="$IDEA" -f state=open 2>&1)
+   MILESTONE_EXIT=$?
+   if [ $MILESTONE_EXIT -ne 0 ]; then
+     if echo "$MILESTONE_RESULT" | grep -q "already_exists"; then
+       # Duplicate — expected, proceed normally
+     else
+       # Real error — warn but continue
+       echo "Warning: Milestone creation failed: $MILESTONE_RESULT"
+     fi
+   fi
+   MILESTONE_NUMBER=$(gh api repos/$REPO/milestones --jq '.[] | select(.title=="'"$IDEA"'") | .number')
+   ```
+
+   **Validate milestone before proceeding:**
+   ```bash
+   if [ -z "$MILESTONE_NUMBER" ]; then
+     echo "Error: Milestone '$IDEA' not found after creation attempt. Check repo permissions."
+     # Abort — do not proceed to issue creation
+     exit 1
+   fi
+   ```
+
+4. **Create labels** (idempotent, best-effort):
+   ```bash
+   gh label create "user-story" --description "User story from council PRD" --color "0E8A16" 2>/dev/null || true
+   LABEL_RESULT=$(gh label create "$THEME_ID-<session-slug>" --description "Council session: <slug>" --color "5319E7" 2>&1)
+   if [ $? -ne 0 ] && ! echo "$LABEL_RESULT" | grep -q "already_exists"; then
+     echo "Warning: Could not create session label — issues will be created without it"
+   fi
+   ```
+
+5. **Initialize issue map** — write `$SESSION_DIR/issues.md` header before the loop:
+   ```markdown
+   # GitHub Issues: <Idea>
+   Session: <session-id> | Milestone: <milestone-url>
+
+   | Issue | Title | Labels | Depends On |
+   |-------|-------|--------|------------|
+   ```
+
+6. **Create issues in dependency order.** For each user story (US-001, US-002, etc.):
+
+   **Idempotency check** — before creating, search for an existing issue:
+   ```bash
+   EXISTING=$(gh issue list --label "$THEME_ID-<session-slug>" --search "[US-NNN]" --json number,title --jq '.[0].number // empty')
+   if [ -n "$EXISTING" ]; then
+     echo "Skipped [US-NNN] — already exists as #$EXISTING"
+     # Record in issues.md and continue to next story
+   fi
+   ```
+
+   **Create issue** (only if no existing match):
+   ```bash
+   gh issue create \
+     --title "[US-NNN] <Story title>" \
+     --label "user-story,$THEME_ID-<session-slug>" \
+     --milestone "$IDEA" \
+     --body "$ISSUE_BODY"
+   ```
+
+   **Append to issue map immediately** after each successful creation or skip:
+   ```
+   | #<N> | [US-NNN] <title> | user-story | <depends-on or —> |
+   ```
+
+   **Issue body template:**
+   ```markdown
+   ## User Story
+   As a <user>, I want <capability> so that <benefit>.
+
+   ## Acceptance Criteria
+   - [ ] <AC-NNN>: <Criterion 1>
+   - [ ] <AC-NNN>: <Criterion 2>
+
+   ## Testing
+   | Criterion | Method | Test Location |
+   |-----------|--------|---------------|
+   | AC-NNN | unit-test | `path/to/test.ts` |
+
+   ## Technical Notes
+   <Relevant technical notes from PRD for this story>
+
+   ## Dependencies
+   - Blocked by #<N> <!-- only if prior stories are prerequisites -->
+
+   ---
+   Tracking: <acceptance-contract-issue-url>
+   Session: `<session-id>`
+   ```
+
+   Track each created issue number for dependency linking in subsequent issues.
+
+7. **Update acceptance contract issue** — append a cross-reference section to the existing contract issue body listing all created user story issues:
+   ```bash
+   gh issue edit <contract-issue-number> --body "$UPDATED_BODY"
+   ```
+
+8. **Print summary** to the user:
+   ```
+   GitHub Issues Created — <N> issues in milestone "<Idea>"
+
+   | # | Title | Dependencies |
+   |---|-------|--------------|
+   | <issue#> | [US-001] <title> | — |
+   | <issue#> | [US-002] <title> | Blocked by #<N> |
+
+   Milestone: <milestone-url>
+   Acceptance Contract: <contract-issue-url>
+   Issue map: $SESSION_DIR/issues.md
+
+   Next: /ship --from-session <session-id>
+   ```
+
+### Path F: Ship (Issues to Merged PRs)
+
+Run Path E (GitHub Issues Export) first, then automatically invoke `/ship` to implement, review, and merge all issues.
+
+1. Execute Path E steps 1-8 (create GitHub issues with acceptance criteria and dependencies)
+2. After Path E completes, invoke:
+   ```
+   /ship --from-session <session-slug>
+   ```
+   The `--from-session` flag reads `$SESSION_DIR/issues.md` for issue numbers and auto-sets `--contract` from `$SESSION_DIR/acceptance-contract.md`.
+
+3. `/ship` handles the full pipeline: implement each issue via `/looper`, review PRs via `/pr-review-toolkit:review-pr`, fix findings autonomously, and merge in dependency order.
 
 **Guided mode:** During team execution (Path A), add per-task approval before each agent starts work:
 ```
@@ -1158,6 +1413,9 @@ $WORKSPACE/.claude/$THEME_ID/
       meeting-notes.md                        # Meeting mode only
       plan.md
       prd.md
+      acceptance-contract.md                # Acceptance contract (Phase 4.1b)
+      test-stubs/                           # BDD test stubs generated from contract
+      issues.md                             # GitHub issue map (Path E export)
       audit/                                  # Deep audit artifacts (Phase 5D)
         state.md                              # Audit loop state + pass history
         coverage.md                           # Zone coverage map
@@ -1270,6 +1528,9 @@ Export a session to a GitHub issue for long-term storage.
 
 ## PRD
 <full prd.md, if exists>
+
+## Acceptance Contract
+<full acceptance-contract.md, if exists>
 
 ## Decision Log
 <extracted from design.md Tension Resolutions + Decision Log tables>
