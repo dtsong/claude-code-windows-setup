@@ -13,6 +13,18 @@ user_invocable: true
 
 An interactive wizard that applies Claude Code best practices to help you craft effective prompts for any task.
 
+## Scope Constraints
+
+- Read-only conversational skill: interviews user and generates prompt text
+- Does not read, modify, or create project files
+- Does not execute code or run any tools beyond user interaction
+
+## Input Sanitization
+
+- All user inputs (task descriptions, scope, context): free text, reject null bytes
+- File paths referenced in context: reject `..` traversal, null bytes, and shell metacharacters
+- URLs in external docs: validate well-formed URL format
+
 ## Modes
 
 ### 1. Create Mode (Default)
@@ -180,6 +192,28 @@ This wizard implements patterns from Claude Code best practices:
 
 ---
 
+## Output Format
+
+```
+## Task
+Fix login form to trim whitespace from email input.
+
+## Task Type
+Bug Fix
+
+## Context
+- Read `src/auth/login.ts` — authentication logic
+- Read `src/components/LoginForm.tsx` — form component
+
+## Requirements
+- Trim whitespace before validation
+- Show error for invalid email format
+
+## Verification
+- [ ] Existing tests pass
+- [ ] Manual test: login with spaces succeeds
+```
+
 ## Example Output
 
 ### Input (from interview)
@@ -233,6 +267,14 @@ Bug Fix
 ```
 
 ---
+
+## Gotchas
+
+- Overly specific file context ("read all 47 files in src/") causes Claude to spend tokens on irrelevant code — list only the 3-5 most relevant files
+- Too many verification criteria (10+ checkboxes) dilutes focus — keep to 3-5 critical verification steps
+- Vague scope boundaries ("don't change too much") are unenforceable — be explicit: "Only modify files in `src/auth/`"
+- Including error messages without reproduction steps wastes debugging time — always pair errors with exact steps to reproduce
+- Prompts that describe the solution instead of the problem constrain Claude's approach — state the desired outcome, not the implementation
 
 ## Usage
 
