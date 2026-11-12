@@ -10,7 +10,7 @@ model: sonnet
 
 - Advisory skill defining development process, commit format, and coding discipline
 - Does not execute commands, modify files, or interact with git directly
-- Boundaries: delegates git operations to git-status, git-workflows, and github-workflow skills
+- Boundaries: delegates git operations to git-workflows and github-workflow skills
 
 ## Input Sanitization
 

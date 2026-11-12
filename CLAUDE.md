@@ -83,9 +83,6 @@ claude-code-windows-setup/
 │   ├── soc-security/       # SoC hardware security skills
 │   ├── research-consulting-skills/  # Research & consulting workflows
 │   ├── data-engineering-skills/     # Python data engineering & AI integration
-│   ├── generate-diagram/   # Diagram generation
-│   ├── evaluate-diagram/   # Diagram evaluation
-│   ├── generate-plot/      # Plot generation
 │   └── ...                 # Additional standalone skill packs
 ├── hooks/                  # Lifecycle hook scripts (.ps1)
 │   ├── _helpers.ps1        # Shared helper functions

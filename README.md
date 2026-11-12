@@ -57,7 +57,7 @@ Useful commands:
 
 ```powershell
 .\Install.ps1 -ListSkills                    # See available skill packs
-.\Install.ps1 -Skills git-status,workflow     # Install specific skills
+.\Install.ps1 -Skills github-workflow,workflow # Install specific skills
 .\Install.ps1 -DryRun                        # Preview without changes
 .\Install.ps1 -Uninstall                     # Clean removal
 ```
@@ -305,7 +305,7 @@ Just run `.\Install.ps1 -Preset full`. You get everything.
 ### Level 2: Selective Install
 
 ```powershell
-.\Install.ps1 -Skills git-status,github-workflow,workflow   # Specific skills
+.\Install.ps1 -Skills github-workflow,workflow               # Specific skills
 .\Install.ps1 -Preset core                                   # Commands + agents, no scripts
 ```
 
