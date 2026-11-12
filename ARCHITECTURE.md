@@ -96,9 +96,12 @@ Agent personas live in `agents\`. Each is a markdown file with YAML frontmatter.
 ---
 name: "Architect"
 description: "Council Blue Lens -- system design, data models, APIs, integration patterns"
-model: "claude-opus-4-6"
 ---
 ```
+
+Agents omit the `model` field so they inherit the session model. To pin one,
+use a tier alias (`opus`, `sonnet`, `haiku`) -- never a versioned model ID;
+ID-to-tier mapping lives in `pipeline/config/model-routing.yaml`.
 
 ### Academy Agent Format
 
@@ -298,7 +301,7 @@ Utility scripts in `scripts\` follow PowerShell Verb-Noun naming conventions:
 
 ### Adding a New Agent
 
-1. Create `agents\council-<name>.md` with YAML frontmatter (`name`, `description`, `model`) and the standard persona body structure
+1. Create `agents\council-<name>.md` with YAML frontmatter (`name`, `description`; no `model` pin) and the standard persona body structure
 2. Create `skills\council\<name>\DEPARTMENT.md` describing the department
 3. Create 2-3 skill directories under the department, each with a `SKILL.md`
 4. Add the agent to the roster table in `commands\council.md`

@@ -164,7 +164,7 @@ This project does not require Node.js, but Claude Code itself does. Recommended 
 - Keep commands focused on a single workflow
 
 ### When modifying agents or skills:
-- Agent files require YAML frontmatter (`name`, `description`, `model`)
+- Agent files require YAML frontmatter (`name`, `description`); omit `model` to inherit the session model
 - Skill files follow: Purpose, Inputs, Process, Output Format, Quality Checks
 - See [ARCHITECTURE.md](ARCHITECTURE.md) for full schema
 
