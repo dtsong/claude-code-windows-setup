@@ -62,3 +62,7 @@ Desktop.ini
 
 # Local testing
 test-output/
+
+# Private repo symlinks (installed by my-claude-setup-private)
+skills/soc-security
+skills/research-consulting-skills

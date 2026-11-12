@@ -80,8 +80,6 @@ claude-code-windows-setup/
 │   ├── dbt-skill/          # dbt data engineering
 │   ├── tdd/                # Test-driven development
 │   ├── frontend-qa/        # Frontend QA pipeline (4 sub-skills)
-│   ├── soc-security/       # SoC hardware security skills
-│   ├── research-consulting-skills/  # Research & consulting workflows
 │   ├── data-engineering-skills/     # Python data engineering & AI integration
 │   ├── generate-diagram/   # Diagram generation
 │   ├── evaluate-diagram/   # Diagram evaluation
