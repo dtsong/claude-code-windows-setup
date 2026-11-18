@@ -201,6 +201,19 @@ Pre-approved safe commands reduce permission prompts without using `--dangerousl
 | `PostToolUse` | `acceptance-gate.ps1` | Quality gate on task completion |
 | `PreCompact` | `pre-compact-handover.ps1` | Auto-save session context before compaction |
 
+#### Opt-in safety hooks
+
+`/careful` (block destructive commands) and `/freeze` (block edits to matching files) are enforced by `careful-mode.ps1` and `freeze-mode.ps1`. They are **not registered by default**: a PreToolUse hook starts `pwsh` on every matching tool call (about 0.5 s each), even while the mode is off. To enable them, add this to the `hooks` block of `~/.claude/settings.json`:
+
+```json
+"PreToolUse": [
+  { "matcher": "Bash|PowerShell", "hooks": [ { "type": "command", "command": "pwsh -NoProfile -File \"%USERPROFILE%\\.claude\\hooks\\careful-mode.ps1\" check" } ] },
+  { "matcher": "Edit|Write|MultiEdit", "hooks": [ { "type": "command", "command": "pwsh -NoProfile -File \"%USERPROFILE%\\.claude\\hooks\\freeze-mode.ps1\" check" } ] }
+]
+```
+
+If a `PreToolUse` block already exists, append these two entries to it. Without the hooks, `/careful` and `/freeze` record their state but warn that nothing is enforced.
+
 ## Command Reference
 
 ### Deliberation
@@ -229,6 +242,13 @@ Pre-approved safe commands reduce permission prompts without using `--dangerousl
 | `/ralf` | Autonomous PRD executor |
 | `/roadmap-executor` | Roadmap to issues to PRs |
 | `/create-issues` | Generate issues from roadmap |
+
+### Safety
+
+| Command | Description |
+|---------|-------------|
+| `/careful [off]` | Block destructive commands (opt-in hook) |
+| `/freeze '<pattern>' \| off \| status` | Block edits to matching files (opt-in hook) |
 
 ### Session Management
 
@@ -276,6 +296,8 @@ claude-code-windows-setup/
 │   ├── stop.ps1            # Completion notification hook
 │   ├── format.ps1          # Auto-format hook
 │   ├── acceptance-gate.ps1 # Quality gate hook
+│   ├── careful-mode.ps1    # /careful guard (opt-in)
+│   ├── freeze-mode.ps1     # /freeze guard (opt-in)
 │   └── pre-compact-handover.ps1  # Auto-save before compaction
 ├── scripts/                # Utility scripts (Verb-Noun.ps1 naming)
 │   ├── Create-Worktrees.ps1
