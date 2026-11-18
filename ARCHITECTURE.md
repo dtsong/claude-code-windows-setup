@@ -189,7 +189,7 @@ Hooks are PowerShell scripts triggered by Claude Code lifecycle events. They are
 | `Notification` | `notify.ps1` | Send desktop notification when Claude needs input |
 | `Stop` | `stop.ps1` | Send notification when Claude completes |
 | `PostToolUse` | `format.ps1` | Auto-format code after Write/Edit/MultiEdit |
-| `PostToolUse` | `acceptance-gate.ps1` | Quality gate on TaskUpdate completion |
+| `PreToolUse` | `acceptance-gate.ps1` | Quality gate on TaskUpdate completion (blocks with exit 2) |
 | `PreCompact` | `pre-compact-handover.ps1` | Auto-generate handover before context compaction |
 
 **hooks.json** provides standalone PreCompact hook for users who don't want the full settings merge.
