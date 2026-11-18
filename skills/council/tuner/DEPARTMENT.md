@@ -11,16 +11,22 @@ The Tuner's department of focused skills for performance optimization, caching a
 
 ## Skills
 
-| Skill | Purpose | Triggers |
-|-------|---------|----------|
-| [performance-audit](performance-audit/SKILL.md) | Bottleneck identification and optimization roadmap | `performance`, `slow`, `bottleneck`, `Core Web Vitals`, `lighthouse`, `profiling` |
-| [caching-strategy](caching-strategy/SKILL.md) | Cache hierarchy design with TTL and invalidation | `cache`, `caching`, `CDN`, `stale`, `invalidation`, `TTL` |
-| [load-modeling](load-modeling/SKILL.md) | Capacity planning and scaling projections | `load`, `scale`, `capacity`, `throughput`, `concurrent`, `benchmark` |
+| Skill | Purpose | Model Tier | Triggers |
+|-------|---------|------------|----------|
+| [performance-audit](performance-audit/SKILL.md) | Bottleneck identification and optimization roadmap | default | `performance`, `slow`, `bottleneck`, `Core Web Vitals`, `lighthouse`, `profiling` |
+| [caching-strategy](caching-strategy/SKILL.md) | Cache hierarchy design with TTL and invalidation | default | `cache`, `caching`, `CDN`, `stale`, `invalidation`, `TTL` |
+| [load-modeling](load-modeling/SKILL.md) | Capacity planning and scaling projections | default | `load`, `scale`, `capacity`, `throughput`, `concurrent`, `benchmark` |
 
-## When This Department Activates
+## Classification Logic
 
-The Tuner activates when performance, scalability, or optimization concerns are raised. Any mention of latency, load, caching, bundle size, or Core Web Vitals triggers inclusion.
+| Input Signal | Route To | Confidence |
+|-------------|----------|------------|
+| Mentions slow page loads, LCP, CLS, INP, Lighthouse scores, or profiling | performance-audit | High |
+| Requests cache design, TTL policies, CDN configuration, or invalidation flows | caching-strategy | High |
+| Asks about capacity planning, scaling triggers, load testing, or cost projections | load-modeling | High |
+| Reports high latency without specifying whether it is rendering, caching, or infrastructure | performance-audit | Medium |
+| Mentions scaling concerns that could involve both caching and capacity planning | load-modeling | Medium |
 
-## Department Philosophy
+## Shared Directives
 
-Measure first, optimize second. Every recommendation is backed by profiled baselines and projected improvements. Optimize the critical path — focus on what users actually wait for. Set performance budgets and enforce them.
+Load Directive, Handoff Protocol, AskUserQuestion format, and Anti-Sycophancy rules: see [references/department-preamble.md](../references/department-preamble.md).

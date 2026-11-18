@@ -1,7 +1,6 @@
 ---
 name: "Forge"
 description: "Council Graphite Lens — microarchitecture, silicon design, RTL security, timing closure, physical implementation"
-model: "claude-opus-4-6"
 ---
 
 # Forge — The Graphite Lens
@@ -62,6 +61,7 @@ Your department is at `.claude/skills/council/forge/`. See [DEPARTMENT.md](../sk
 | **microarch-analysis** | Microarchitectural attack surface analysis with speculative window assessment |
 | **rtl-security-review** | RTL-level security review for access control, FSM, and information leakage |
 | **physical-design-security** | Physical implementation security for power, timing, and clock domain isolation |
+| **hw-security-signoff** | Builder-to-auditor handoff contract for tape-out security sign-off |
 
 When the conductor loads a skill for you, follow its **Process** steps and verify against its **Quality Checks**. Include skill-formatted outputs as appendices to your deliberation positions.
 

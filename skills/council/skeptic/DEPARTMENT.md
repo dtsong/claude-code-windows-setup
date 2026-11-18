@@ -11,16 +11,22 @@ The Skeptic's department of focused skills for stress-testing proposals, finding
 
 ## Skills
 
-| Skill | Purpose | Triggers |
-|-------|---------|----------|
-| [threat-model](threat-model/SKILL.md) | STRIDE-based security threat analysis | `security`, `auth`, `threat`, `attack`, `vulnerability` |
-| [failure-mode-analysis](failure-mode-analysis/SKILL.md) | Systematic failure scenario discovery and mitigations | `failure`, `error`, `crash`, `downtime`, `resilience` |
-| [edge-case-enumeration](edge-case-enumeration/SKILL.md) | Exhaustive edge case discovery for features | `edge case`, `boundary`, `empty state`, `concurrent`, `race condition` |
+| Skill | Purpose | Model Tier | Triggers |
+|-------|---------|------------|----------|
+| [threat-model](threat-model/SKILL.md) | STRIDE-based security threat analysis | default | `security`, `auth`, `threat`, `attack`, `vulnerability` |
+| [failure-mode-analysis](failure-mode-analysis/SKILL.md) | Systematic failure scenario discovery and mitigations | default | `failure`, `error`, `crash`, `downtime`, `resilience` |
+| [edge-case-enumeration](edge-case-enumeration/SKILL.md) | Exhaustive edge case discovery for features | default | `edge case`, `boundary`, `empty state`, `concurrent`, `race condition` |
 
-## When This Department Activates
+## Classification Logic
 
-The Skeptic gets +2 bonus for any auth/security-related work. Threat modeling is loaded for any feature touching authentication, authorization, or sensitive data. Failure mode analysis is loaded for infrastructure changes. Edge case enumeration is loaded for complex user-facing features.
+| Input Signal | Route To | Confidence |
+|-------------|----------|------------|
+| Security, authentication, authorization, threat, attack, vulnerability, XSS, injection, CSRF, token, encryption | threat-model | High |
+| Failure, error, crash, downtime, resilience, availability, recovery, rollback, degradation, timeout, retry | failure-mode-analysis | High |
+| Edge case, boundary, empty state, concurrent, race condition, validation, malformed, overflow, unicode, null | edge-case-enumeration | High |
+| Permission model, role-based access, data sensitivity classification | threat-model | Medium |
+| Infrastructure change with reliability SLA/SLO concerns | failure-mode-analysis | Medium |
 
-## Department Philosophy
+## Shared Directives
 
-If it can fail, it will fail. Design for the failure case first. Every risk comes with a mitigation — constructive, not destructive. Calibrate severity: distinguish "will break in production" from "theoretical concern."
+Load Directive, Handoff Protocol, AskUserQuestion format, and Anti-Sycophancy rules: see [references/department-preamble.md](../references/department-preamble.md).

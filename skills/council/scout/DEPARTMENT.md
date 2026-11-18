@@ -11,16 +11,25 @@ The Scout's department of focused skills for researching prior art, evaluating e
 
 ## Skills
 
-| Skill | Purpose | Triggers |
-|-------|---------|----------|
-| [library-evaluation](library-evaluation/SKILL.md) | Structured library scoring and comparison | `library`, `package`, `dependency`, `npm`, `install` |
-| [competitive-analysis](competitive-analysis/SKILL.md) | Feature comparison matrix across competing products | `competitive`, `alternative`, `comparison`, `prior art` |
-| [technology-radar](technology-radar/SKILL.md) | Technology maturity assessment and adoption guidance | `framework`, `technology`, `tool`, `evaluate`, `choose` |
+| Skill | Purpose | Model Tier | Triggers |
+|-------|---------|------------|----------|
+| [library-evaluation](library-evaluation/SKILL.md) | Structured library scoring and comparison | default | `library`, `package`, `dependency`, `npm`, `install` |
+| [competitive-analysis](competitive-analysis/SKILL.md) | Feature comparison matrix across competing products | default | `competitive`, `alternative`, `comparison`, `prior art` |
+| [technology-radar](technology-radar/SKILL.md) | Technology maturity assessment and adoption guidance | default | `framework`, `technology`, `tool`, `evaluate`, `choose` |
+| [enterprise-search-strategy](enterprise-search-strategy/SKILL.md) | Internal-knowledge search plan and evidence brief | default | `internal search`, `prior art internal`, `what did we decide`, `find the doc`, `across the org` |
 
-## When This Department Activates
+## Classification Logic
 
-The Scout gets +2 bonus for any feature requiring external dependencies or technology choices. Library evaluation is loaded when adding new packages or choosing between alternatives. Competitive analysis is loaded when designing features that exist in competing products. Technology radar is loaded when evaluating frameworks, tools, or platforms.
+| Input Signal | Route To | Confidence |
+|-------------|----------|------------|
+| Adding a new package, choosing between npm libraries, dependency decisions | library-evaluation | High |
+| Comparing competing products, analyzing prior art in the market | competitive-analysis | High |
+| Evaluating a framework, tool, or platform for adoption or migration | technology-radar | High |
+| Mentions "bundle size", "maintenance health", "license compatibility" | library-evaluation | High |
+| Asks about market landscape, feature gaps, or differentiation | competitive-analysis | Medium |
+| Asks generally about "should we use X" without specifying library vs platform | technology-radar | Medium |
+| Surfacing internal prior decisions, past tickets, ADRs, postmortems before deliberating | enterprise-search-strategy | High |
 
-## Department Philosophy
+## Shared Directives
 
-Standing on the shoulders of giants. Research before reinventing.
+Load Directive, Handoff Protocol, AskUserQuestion format, and Anti-Sycophancy rules: see [references/department-preamble.md](../references/department-preamble.md).
