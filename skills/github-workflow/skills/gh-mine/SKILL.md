@@ -248,7 +248,7 @@ Total: 2 reviews pending
 
 ## Script Location
 
-`~/.claude/skills/github-workflow/scripts/my-items.sh`
+`~/.claude/skills/github-workflow/scripts/Get-MyItems.ps1`
 
 ## Integration
 

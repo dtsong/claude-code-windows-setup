@@ -231,7 +231,7 @@ Key accomplishments:
 
 ## Script Location
 
-`~/.claude/skills/github-workflow/scripts/activity-summary.sh`
+`~/.claude/skills/github-workflow/scripts/Get-ActivitySummary.ps1`
 
 ## Integration
 

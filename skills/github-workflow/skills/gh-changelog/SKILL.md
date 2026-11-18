@@ -246,7 +246,7 @@ For PRs/commits that don't match categories:
 ## Script Location
 
 The changelog generation script is at:
-`~/.claude/skills/github-workflow/scripts/release-notes.sh`
+`~/.claude/skills/github-workflow/scripts/Get-ReleaseNotes.ps1`
 
 ## Integration
 

@@ -258,7 +258,7 @@ Action items:
 
 ## Health Script
 
-Located at: `~/.claude/skills/github-workflow/scripts/repo-health.sh`
+Located at: `~/.claude/skills/github-workflow/scripts/Get-RepoHealth.ps1`
 
 ## Integration
 
