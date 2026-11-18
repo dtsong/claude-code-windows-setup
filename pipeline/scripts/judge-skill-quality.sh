@@ -11,6 +11,9 @@
 
 set -euo pipefail
 
+# Windows (Git Bash): python3 is often missing or the Microsoft Store stub.
+if python3 -c '' >/dev/null 2>&1; then PYTHON=python3; else PYTHON=python; fi
+
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 TARGETS="all"
 MODEL="sonnet"
@@ -91,7 +94,7 @@ if [ "$DIFF_MODE" = "true" ]; then
     for skill_file in $SKILL_FILES; do
       [ -z "$skill_file" ] && continue
       skill_dir="$(dirname "$skill_file")"
-      rel_dir="$(python3 -c "import os; print(os.path.relpath('$skill_dir', '$REPO_ROOT'))")"
+      rel_dir="$("$PYTHON" -c "import os; print(os.path.relpath('$skill_dir', '$REPO_ROOT'))")"
       if echo "$changed_files" | grep -q "^${rel_dir}/"; then
         filtered="$(printf '%s\n%s' "$filtered" "$skill_file")"
       fi
@@ -144,7 +147,7 @@ for skill_file in $SKILL_FILES; do
   [ ! -f "$skill_file" ] && continue
 
   TOTAL=$((TOTAL + 1))
-  rel_path="$(python3 -c "import os; print(os.path.relpath('$skill_file', '$REPO_ROOT'))")"
+  rel_path="$("$PYTHON" -c "import os; print(os.path.relpath('$skill_file', '$REPO_ROOT'))")"
   echo "Judging: $rel_path"
 
   skill_content="$(cat "$skill_file")"
@@ -157,7 +160,7 @@ for skill_file in $SKILL_FILES; do
   rm -f "$prompt_file"
 
   # Extract scores using python for robustness
-  scores="$(python3 -c "
+  scores="$("$PYTHON" -c "
 import json, sys, re
 text = '''$result'''
 # Try to find JSON in the response

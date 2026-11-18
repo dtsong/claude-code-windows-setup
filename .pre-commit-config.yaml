@@ -1,3 +1,7 @@
+# Skill governance enforcement — see pipeline/specs/SKILL-GOVERNANCE-SPEC.md §8.3
+# Hard-tier hooks block the commit; warn-tier hooks print advisories and always pass.
+# Security runs first — fail fast on critical findings.
+default_stages: [pre-commit]
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
@@ -8,12 +12,14 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.22.1
+    rev: v8.30.0
     hooks:
       - id: gitleaks
 
   # Local hooks use bash wrappers (run via Git Bash on Windows).
   # pwsh is called from within the scripts where needed.
+  # Python hooks call `python` (not `python3`, which is usually missing or
+  # the Microsoft Store stub on Windows).
   - repo: local
     hooks:
       - id: powershell-syntax
@@ -29,3 +35,55 @@ repos:
         entry: ./hooks/pre-commit-check-docs.sh
         pass_filenames: false
         always_run: true
+
+      - id: model-routing
+        name: model-routing (hard)
+        entry: python pipeline/hooks/check_model_routing.py
+        language: system
+        files: ^skills/council/model-routing\.json$
+        pass_filenames: true
+
+      - id: skill-frontmatter
+        name: skill-frontmatter (hard)
+        entry: python pipeline/hooks/check_frontmatter.py
+        language: system
+        files: ^skills/.*\.md$
+
+      - id: skill-references
+        name: skill-references (hard)
+        entry: python pipeline/hooks/check_references.py
+        language: system
+        files: ^skills/.*\.md$
+
+      - id: skill-isolation
+        name: skill-isolation (hard)
+        entry: python pipeline/hooks/check_isolation.py
+        language: system
+        files: ^skills/.*\.md$
+
+      - id: skill-context-load
+        name: skill-context-load (hard)
+        entry: python pipeline/hooks/check_context_load.py
+        language: system
+        files: ^skills/.*\.md$
+
+      - id: skill-token-budget
+        name: skill-token-budget (warn)
+        entry: python pipeline/hooks/check_token_budget.py
+        language: system
+        files: ^skills/.*\.md$
+        verbose: true
+
+      - id: skill-prose-check
+        name: skill-prose-check (warn)
+        entry: python pipeline/hooks/check_prose.py
+        language: system
+        files: ^skills/.*\.md$
+        verbose: true
+
+      # Runs only after `pre-commit install --hook-type commit-msg`.
+      - id: skill-commit-msg
+        name: skill-commit-msg (hard)
+        entry: python pipeline/hooks/check_commit_msg.py
+        language: system
+        stages: [commit-msg]

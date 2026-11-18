@@ -14,6 +14,9 @@
 
 set -euo pipefail
 
+# Windows (Git Bash): python3 is often missing or the Microsoft Store stub.
+if python3 -c '' >/dev/null 2>&1; then PYTHON=python3; else PYTHON=python; fi
+
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 TARGETS="all"
 MODEL="sonnet"
@@ -71,7 +74,7 @@ run_tier1() {
       # Find all SKILL.md files and pass to hook
       skill_files=$(find "$REPO_ROOT/skills" "$REPO_ROOT/commands" -name "SKILL.md" -o -name "DEPARTMENT.md" 2>/dev/null | head -200)
       if [ -n "$skill_files" ]; then
-        echo "$skill_files" | xargs python3 "$hook" 2>&1 || true
+        echo "$skill_files" | xargs "$PYTHON" "$hook" 2>&1 || true
       fi
     done
   fi
@@ -118,7 +121,7 @@ build_skill_dirs() {
 
     filtered=""
     for skill_dir in $SKILL_DIRS; do
-      rel_dir="$(python3 -c "import os; print(os.path.relpath('$skill_dir', '$REPO_ROOT'))")"
+      rel_dir="$("$PYTHON" -c "import os; print(os.path.relpath('$skill_dir', '$REPO_ROOT'))")"
       if echo "$changed_files" | grep -q "^${rel_dir}/"; then
         filtered="$filtered $skill_dir"
       fi
@@ -171,7 +174,7 @@ run_tier2() {
 
     # Run trigger evals if they exist
     if [ -f "$trigger_file" ]; then
-      cases="$(python3 -c "
+      cases="$("$PYTHON" -c "
 import json, sys
 with open('$trigger_file') as f:
     data = json.load(f)
@@ -242,7 +245,7 @@ Respond with just the skill name (e.g., 'schema-design' or 'NONE'):"
     if [ -f "$evals_file" ]; then
       echo "  (structured evals from evals.json — case-by-case execution)"
 
-      cases="$(python3 -c "
+      cases="$("$PYTHON" -c "
 import json
 with open('$evals_file') as f:
     data = json.load(f)
@@ -264,7 +267,7 @@ for c in data.get('cases', []):
         fi
 
         # Extract user_prompt from the case file's JSON block
-        user_prompt="$(python3 -c "
+        user_prompt="$("$PYTHON" -c "
 import re, json, sys
 with open('$case_path') as f:
     text = f.read()

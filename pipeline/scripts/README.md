@@ -3,6 +3,9 @@
 Analysis and reporting utilities for the skill-governance pipeline. These are
 read-only reports — the enforcing checks live in `pipeline/hooks/`.
 
+On Windows, use `python` in place of `python3` if `python3` is not on PATH
+(the bash scripts pick whichever works).
+
 ## skill-audit.py
 
 Tool-agnostic skill inventory audit. Reports the signals that hold for any
