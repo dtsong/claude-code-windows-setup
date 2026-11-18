@@ -1,6 +1,6 @@
 ---
-name: "GitHub PR Status"
-description: "Check PR status, CI results, and merge readiness"
+name: "gh-pr-status"
+description: "Use when checking pull request status, CI results, review state, and merge readiness."
 triggers:
   - "gh-pr-status"
   - "pr status"
@@ -10,6 +10,17 @@ triggers:
 version: "1.0.0"
 user_invocable: true
 ---
+
+## Scope Constraints
+
+- Read-only GitHub API operations — queries PR details, CI check results, and review status.
+- Does not modify PRs, merge branches, or update code.
+- Does not respond to review comments — use gh-pr-respond skill for that.
+
+## Input Sanitization
+
+- PR numbers: must be positive integers.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
 
 # /gh-pr-status - Check PR Status
 

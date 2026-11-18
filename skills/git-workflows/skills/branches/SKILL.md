@@ -1,6 +1,6 @@
 ---
-name: "Git Branches"
-description: "List and visualize branch status"
+name: "git-branches"
+description: "Use when listing local and remote branches or visualizing branch status and divergence."
 triggers:
   - "git branches"
   - "list branches"
@@ -10,6 +10,16 @@ triggers:
 version: "1.0.0"
 user_invocable: true
 ---
+
+## Scope Constraints
+
+- Read-only git operations — does not modify repository state (except `git fetch --prune` to refresh remote tracking)
+- Does not create, delete, or switch branches
+- Does not push or pull changes
+
+## Input Sanitization
+
+- Filter flags: only `--all`, `--merged`, `--no-merged`, `--stale` accepted. Reject arbitrary strings or shell metacharacters.
 
 # /git-branches - List and Visualize Branches
 
