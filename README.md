@@ -10,7 +10,7 @@ A portable Claude Code configuration system -- 38 agents, 100+ skills, 8 deliber
 - **Windows notifications** -- toast notifications identifying which agent needs attention
 - **5 parallel agents** -- using git worktrees with agent identification
 - **Auto-formatting** hooks for multiple languages
-- **Pre-approved permissions** -- 76 safe commands pre-allowed, 9 dangerous commands denied
+- **Pre-approved permissions** -- 71 safe commands pre-allowed; destructive commands and secret files denied
 - **Session persistence** -- `/handover` + auto-compaction hooks preserve context
 - **Issue-driven execution** -- `/looper`, `/implement`, `/ralf` for GitHub workflow automation
 - **Project scaffolding** -- Python, TypeScript, Terraform, MCP server templates
@@ -188,8 +188,8 @@ claude
 
 Pre-approved safe commands reduce permission prompts without using `--dangerously-skip-permissions`:
 
-- **76 allowed patterns**: package managers, git, file utilities, build tools, formatters, test runners
-- **9 deny patterns**: destructive commands (`rm -rf /`, `sudo rm`, `mkfs`, etc.)
+- **71 allowed patterns**: package managers, git, file utilities, build tools, formatters, test runners
+- **31 deny patterns**: destructive commands (`rm -rf /`, `sudo rm`, `mkfs`, etc.), outward-facing actions (`gh repo delete`, `gh secret set`, `npm publish`, `curl … | sh`), and reading or editing secrets (`.env*`, `.ssh/`, `.aws/`, `*.pem`, `*.key`, `credentials/`, `secrets/`)
 
 ### Hooks
 

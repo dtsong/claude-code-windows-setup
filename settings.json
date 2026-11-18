@@ -158,7 +158,27 @@
       "Bash(chmod -R 777 /)",
       "Bash(chown -R:*)",
       "Bash(Remove-Item -Recurse -Force /)",
-      "Bash(Format-Volume:*)"
+      "Bash(Format-Volume:*)",
+      "Bash(gh repo delete *)",
+      "Bash(gh secret set *)",
+      "Bash(gh gist create *)",
+      "Bash(npm publish *)",
+      "Bash(curl * | sh)",
+      "Read(**/.env*)",
+      "Read(**/.dev.vars*)",
+      "Read(**/.ssh/**)",
+      "Read(**/.aws/**)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/.npmrc)",
+      "Read(**/.pypirc)",
+      "Read(**/credentials/**)",
+      "Read(**/secrets/**)",
+      "Read(**/config/credentials.json)",
+      "Read(**/config/database.yml)",
+      "Edit(**/.env*)",
+      "Edit(**/.ssh/**)",
+      "Edit(**/secrets/**)"
     ]
   }
 }
