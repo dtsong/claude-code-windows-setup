@@ -46,7 +46,7 @@ claude-code-windows-setup/
 ├── commands/               # Slash commands + shared engine
 │   ├── _council-engine.md  # Shared deliberation engine (~1200 lines)
 │   ├── council.md          # Council theme layer
-│   ├── brainstorm.md       # Quick 3-agent gut check
+│   ├── brainstorm.md       # Redirect stub to /council --brainstorm
 │   ├── looper.md           # Issue-to-PR with retry loops
 │   ├── implement.md        # Implement GitHub issues
 │   ├── ralf.md             # Autonomous PRD executor
