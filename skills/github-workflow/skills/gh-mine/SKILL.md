@@ -1,6 +1,6 @@
 ---
-name: "GitHub Mine"
-description: "Show my assigned and mentioned GitHub items"
+name: "gh-mine"
+description: "Use when listing GitHub issues and pull requests assigned to or mentioning the current user."
 triggers:
   - "gh-mine"
   - "my issues"
@@ -10,6 +10,17 @@ triggers:
 version: "1.0.0"
 user_invocable: true
 ---
+
+## Scope Constraints
+
+- Read-only GitHub API operations — queries issues, PRs, review requests, and mentions assigned to or involving the authenticated user.
+- Does not create, modify, or close issues or PRs.
+- Does not perform triage or labeling — use gh-triage skill for that.
+
+## Input Sanitization
+
+- Filter flags (--issues, --prs, --reviews, --mentions): must be recognized option names only.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
 
 # /gh-mine - My GitHub Items
 
@@ -237,7 +248,7 @@ Total: 2 reviews pending
 
 ## Script Location
 
-`~/.claude/skills/github-workflow/scripts/my-items.sh`
+`~/.claude/skills/github-workflow/scripts/Get-MyItems.ps1`
 
 ## Integration
 

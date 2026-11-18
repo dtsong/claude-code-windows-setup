@@ -1,6 +1,6 @@
 ---
-name: "GitHub Changelog"
-description: "Generate changelog from merged PRs and commits"
+name: "gh-changelog"
+description: "Use when generating a changelog from merged pull requests and commits since the last release."
 triggers:
   - "gh-changelog"
   - "changelog"
@@ -9,6 +9,18 @@ triggers:
 version: "1.0.0"
 user_invocable: true
 ---
+
+## Scope Constraints
+
+- Read-only operations — queries merged PRs, commits, and tags to generate changelog text.
+- Does not create releases, tags, or modify repository state.
+- Does not publish or push changelog content — use gh-release skill for publishing.
+
+## Input Sanitization
+
+- Version/tag identifiers: must match semver format (e.g., `v1.2.3`) with alphanumeric characters, dots, hyphens only.
+- Date values (--since): must be valid ISO 8601 date strings.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
 
 # /gh-changelog - Generate Changelog
 
@@ -234,7 +246,7 @@ For PRs/commits that don't match categories:
 ## Script Location
 
 The changelog generation script is at:
-`~/.claude/skills/github-workflow/scripts/release-notes.sh`
+`~/.claude/skills/github-workflow/scripts/Get-ReleaseNotes.ps1`
 
 ## Integration
 

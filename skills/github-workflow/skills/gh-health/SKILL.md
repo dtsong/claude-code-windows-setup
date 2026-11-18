@@ -1,6 +1,6 @@
 ---
-name: "GitHub Health"
-description: "Repository health dashboard and status overview"
+name: "gh-health"
+description: "Use when producing a repository health dashboard covering CI, issues, and PR backlog status."
 triggers:
   - "gh-health"
   - "repo health"
@@ -9,6 +9,17 @@ triggers:
 version: "1.0.0"
 user_invocable: true
 ---
+
+## Scope Constraints
+
+- Read-only GitHub API operations — queries issues, PRs, CI status, branches, and activity metrics.
+- Does not create, modify, or close any GitHub resources.
+- Does not perform triage actions — use gh-triage skill for labeling and assignment.
+
+## Input Sanitization
+
+- Focus flags (--issues, --prs, --ci): must be recognized option names only.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
 
 # /gh-health - Repository Health Dashboard
 
@@ -247,7 +258,7 @@ Action items:
 
 ## Health Script
 
-Located at: `~/.claude/skills/github-workflow/scripts/repo-health.sh`
+Located at: `~/.claude/skills/github-workflow/scripts/Get-RepoHealth.ps1`
 
 ## Integration
 

@@ -1,6 +1,6 @@
 ---
-name: "Git Rebase"
-description: "Rebase current branch onto main with guidance"
+name: "git-rebase"
+description: "Use when rebasing the current branch onto main with guidance through each step."
 triggers:
   - "git rebase"
   - "rebase onto main"
@@ -9,6 +9,19 @@ triggers:
 version: "1.0.0"
 user_invocable: true
 ---
+
+## Scope Constraints
+
+- Destructive write operation — rewrites commit history by replaying commits onto a new base
+- Fetches from remote to update the target branch before rebasing
+- Does not push to remote — use push skill with `--force-with-lease` after rebase
+- Does not resolve conflicts — use conflicts skill if rebase produces conflicts
+- Should not be used on shared branches — only personal feature branches
+
+## Input Sanitization
+
+- Target branch name: only alphanumeric characters, hyphens, underscores, and forward slashes. Reject spaces, `..`, shell metacharacters, or null bytes.
+- Flags: only `--continue`, `--abort` accepted. Reject arbitrary strings.
 
 # /git-rebase - Rebase Onto Main
 

@@ -1,6 +1,6 @@
 ---
-name: "GitHub Tag"
-description: "Create semantic version tags"
+name: "gh-tag"
+description: "Use when creating and pushing semantic version tags for a release cut."
 triggers:
   - "gh-tag"
   - "create tag"
@@ -9,6 +9,19 @@ triggers:
 version: "1.0.0"
 user_invocable: true
 ---
+
+## Scope Constraints
+
+- Read-write operations — creates, lists, pushes, and deletes git tags.
+- Does not create GitHub releases — use gh-release skill for that.
+- Does not modify repository settings or branch protections.
+- Tags are local until explicitly pushed to the remote.
+
+## Input Sanitization
+
+- Tag names: must match semver format (e.g., `v1.2.3`, `v1.0.0-beta.1`) with alphanumeric characters, dots, and hyphens only.
+- Tag messages: reject null bytes.
+- Commit references: must be valid hex SHA prefixes or HEAD.
 
 # /gh-tag - Create Version Tags
 

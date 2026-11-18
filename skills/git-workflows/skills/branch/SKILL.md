@@ -1,6 +1,6 @@
 ---
-name: "Git Branch"
-description: "Create new branches with naming conventions"
+name: "git-branch"
+description: "Use when creating a new git branch following the project's branch naming conventions."
 triggers:
   - "git branch"
   - "new branch"
@@ -10,6 +10,18 @@ triggers:
 version: "1.0.0"
 user_invocable: true
 ---
+
+## Scope Constraints
+
+- Write operation — creates new local branches and switches to them
+- Does not push to remote — use push or sync skill for that
+- Does not delete branches — use delete-branch skill for that
+- Does not create PRs — use github-workflow for that
+
+## Input Sanitization
+
+- Branch names: only alphanumeric characters, hyphens, underscores, and forward slashes. Reject spaces, `..`, shell metacharacters, or null bytes.
+- Base branch (`--from`): must be a valid existing ref. Reject shell metacharacters and `..` traversal.
 
 # /git-branch - Create New Branch
 
@@ -175,4 +187,9 @@ When `--suggest` is used, generate names based on description:
 - Use `/git-switch` to change between branches
 - Use `/git-branches` to see all branches
 - Use `/commit-push-pr` when ready to create PR
-- See reference at `~/.claude/skills/git-workflows/references/naming-conventions.md`
+
+## References
+
+| Path | Load Condition | Content Summary |
+|------|---------------|-----------------|
+| `../../references/naming-conventions.md` | Branch name validation | Branch naming convention rules and prefix definitions |

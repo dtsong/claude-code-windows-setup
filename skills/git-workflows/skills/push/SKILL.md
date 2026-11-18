@@ -1,6 +1,6 @@
 ---
-name: "Git Push"
-description: "Push commits to remote with upstream handling"
+name: "git-push"
+description: "Use when pushing commits to the remote, including first-push upstream tracking setup."
 triggers:
   - "git push"
   - "push changes"
@@ -9,6 +9,18 @@ triggers:
 version: "1.0.0"
 user_invocable: true
 ---
+
+## Scope Constraints
+
+- Write operation — pushes local commits to the remote repository
+- Does not create commits or modify local files — only publishes existing commits
+- Does not create PRs — use github-workflow for that
+- Never force-pushes automatically — `--force-with-lease` requires explicit user request
+
+## Input Sanitization
+
+- Flags: only `-u`, `--force-with-lease` accepted. Reject `--force` without `--with-lease`, arbitrary strings, and shell metacharacters.
+- Branch names (if specified): only alphanumeric characters, hyphens, underscores, and forward slashes. Reject spaces, `..`, or null bytes.
 
 # /git-push - Push Commits to Remote
 

@@ -1,6 +1,6 @@
 ---
-name: "GitHub Issue"
-description: "Create, link, and manage GitHub issues with templates"
+name: "gh-issue"
+description: "Use when creating, linking, or managing GitHub issues with the repository's issue templates."
 triggers:
   - "gh-issue"
   - "create issue"
@@ -10,6 +10,20 @@ triggers:
 version: "1.0.0"
 user_invocable: true
 ---
+
+## Scope Constraints
+
+- Creates, views, closes, and links GitHub issues via gh CLI or GitHub MCP.
+- Does not modify repository settings, branch protections, or code.
+- Does not create PRs — use gh-pr-request or commit-push-pr skills for that.
+- Does not perform batch triage — use gh-triage skill for bulk labeling.
+
+## Input Sanitization
+
+- Issue numbers: must be positive integers.
+- Label names: reject null bytes and shell metacharacters (`; & | $ \` \\ < >`).
+- Issue title and body text: reject null bytes.
+- Repository identifier: inferred from local git context; if provided, must match `owner/repo` format with alphanumeric characters and hyphens only.
 
 # /gh-issue - Create and Manage Issues
 
