@@ -11,16 +11,24 @@ The Operator's department of focused skills for deployment pipelines, observabil
 
 ## Skills
 
-| Skill | Purpose | Triggers |
-|-------|---------|----------|
-| [deployment-plan](deployment-plan/SKILL.md) | Deployment strategy, rollback, and release planning | `deploy`, `rollback`, `release`, `staging`, `production` |
-| [observability-design](observability-design/SKILL.md) | Monitoring, alerting, and logging strategy | `monitoring`, `alerting`, `logging`, `observability`, `Sentry` |
-| [cost-analysis](cost-analysis/SKILL.md) | Infrastructure cost modeling and optimization | `cost`, `pricing`, `budget`, `compute`, `scaling` |
+| Skill | Purpose | Model Tier | Triggers |
+|-------|---------|------------|----------|
+| [deployment-plan](deployment-plan/SKILL.md) | Deployment strategy, rollback, and release planning | default | `deploy`, `rollback`, `release`, `staging`, `production` |
+| [observability-design](observability-design/SKILL.md) | Monitoring, alerting, and logging strategy | default | `monitoring`, `alerting`, `logging`, `observability`, `Sentry` |
+| [cost-analysis](cost-analysis/SKILL.md) | Infrastructure cost modeling and optimization | default | `cost`, `pricing`, `budget`, `compute`, `scaling` |
+| [finops-analysis](finops-analysis/SKILL.md) | Cloud cost attribution and unit economics | default | `FinOps`, `cloud cost`, `cost optimization`, `unit economics`, `reserved instances` |
 
-## When This Department Activates
+## Classification Logic
 
-The Operator activates when discussions involve deployment workflows, infrastructure decisions, monitoring strategy, or cost considerations. Any mention of environments, CI/CD, alerts, or scaling triggers Operator involvement.
+| Input Signal | Route To | Confidence |
+|-------------|----------|------------|
+| Deploy, rollback, release, CI/CD, pipeline, blue-green, canary, staging, production | deployment-plan | High |
+| Monitoring, alerting, logging, observability, Sentry, metrics, tracing, dashboard, SLO | observability-design | High |
+| Cost, pricing, budget, compute, scaling, infrastructure cost, optimization | cost-analysis | High |
+| FinOps, cloud cost, cost attribution, unit economics, reserved instances, right-sizing, spot instances, savings plan, cost anomaly | finops-analysis | High |
+| Environment configuration, feature flags, zero-downtime | deployment-plan | Medium |
+| Error budgets, burn rate, SLI definitions | observability-design | Medium |
 
-## Department Philosophy
+## Shared Directives
 
-Operability is a feature. If you can't deploy, monitor, and rollback it, you haven't shipped it.
+Load Directive, Handoff Protocol, AskUserQuestion format, and Anti-Sycophancy rules: see [references/department-preamble.md](../references/department-preamble.md).

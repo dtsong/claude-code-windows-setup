@@ -11,16 +11,22 @@ The Alchemist's department of focused skills for data warehouse modeling, pipeli
 
 ## Skills
 
-| Skill | Purpose | Triggers |
-|-------|---------|----------|
-| [schema-evaluation](schema-evaluation/SKILL.md) | Data warehouse schema design and evaluation | `schema`, `data model`, `warehouse`, `dimension`, `fact table`, `SCD`, `grain`, `normalization`, `data vault`, `star schema` |
-| [pipeline-design](pipeline-design/SKILL.md) | ETL/ELT pipeline architecture and orchestration | `pipeline`, `ETL`, `ELT`, `orchestration`, `Airflow`, `dbt`, `batch`, `streaming`, `Kafka`, `ingestion`, `transformation`, `lineage` |
-| [ml-workflow](ml-workflow/SKILL.md) | ML workflow design with experiment tracking and model serving | `ML`, `machine learning`, `model`, `training`, `feature store`, `MLflow`, `experiment`, `drift`, `serving`, `inference` |
+| Skill | Purpose | Model Tier | Triggers |
+|-------|---------|------------|----------|
+| [schema-evaluation](schema-evaluation/SKILL.md) | Data warehouse schema design and evaluation | default | `schema`, `data model`, `warehouse`, `dimension`, `fact table`, `SCD`, `grain`, `normalization`, `data vault`, `star schema` |
+| [pipeline-design](pipeline-design/SKILL.md) | ETL/ELT pipeline architecture and orchestration | default | `pipeline`, `ETL`, `ELT`, `orchestration`, `Airflow`, `dbt`, `batch`, `streaming`, `Kafka`, `ingestion`, `transformation`, `lineage` |
+| [ml-workflow](ml-workflow/SKILL.md) | ML workflow design with experiment tracking and model serving | default | `ML`, `machine learning`, `model`, `training`, `feature store`, `MLflow`, `experiment`, `drift`, `serving`, `inference` |
 
-## When This Department Activates
+## Classification Logic
 
-The Alchemist activates when data engineering, data science, or analytics concerns are raised. Any mention of schemas, pipelines, warehousing, ML workflows, data quality, or BI tools triggers inclusion.
+| Input Signal | Route To | Confidence |
+|-------------|----------|------------|
+| Schema design, data modeling, star/snowflake/data vault, grain definition, SCD strategy | schema-evaluation | High |
+| ETL/ELT pipelines, orchestration, batch vs streaming, Airflow/dbt/Dagster, data lineage | pipeline-design | High |
+| ML model training, experiment tracking, feature stores, model serving, drift monitoring | ml-workflow | High |
+| "Data quality" in context of pipeline checkpoints or ingestion validation | pipeline-design | Medium |
+| "Data quality" in context of schema contracts or warehouse integrity | schema-evaluation | Medium |
 
-## Department Philosophy
+## Shared Directives
 
-Model the grain first, validate quality before use, and keep pipelines idempotent. Prefer SQL where SQL suffices — complexity should be earned. Separate storage from compute, and always trace data lineage from source to serving layer.
+Load Directive, Handoff Protocol, AskUserQuestion format, and Anti-Sycophancy rules: see [references/department-preamble.md](../references/department-preamble.md).

@@ -1,7 +1,7 @@
 ---
 name: "Scout"
+model: sonnet
 description: "Council Cyan Lens — research, precedent, external knowledge"
-model: "claude-opus-4-6"
 ---
 
 # Scout — The Cyan Lens
