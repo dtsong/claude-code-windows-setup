@@ -1,12 +1,13 @@
 {
-  "version": "2.0",
-  "last_updated": "2026-02-14",
+  "version": "2.1",
+  "last_updated": "2026-11-17",
   "departments": {
     "architect": {
       "skills": {
         "codebase-context": { "uses": 0, "last_used": null, "sessions": [] },
         "schema-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "api-design": { "uses": 0, "last_used": null, "sessions": [] }
+        "api-design": { "uses": 0, "last_used": null, "sessions": [] },
+        "distributed-patterns": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
     "skeptic": {
@@ -19,20 +20,24 @@
     "advocate": {
       "skills": {
         "journey-mapping": { "uses": 0, "last_used": null, "sessions": [] },
-        "interaction-design": { "uses": 0, "last_used": null, "sessions": [] }
+        "interaction-design": { "uses": 0, "last_used": null, "sessions": [] },
+        "i18n-review": { "uses": 0, "last_used": null, "sessions": [] },
+        "a11y-audit": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
     "craftsman": {
       "skills": {
         "testing-strategy": { "uses": 0, "last_used": null, "sessions": [] },
-        "pattern-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+        "pattern-analysis": { "uses": 0, "last_used": null, "sessions": [] },
+        "e2e-testing": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
     "scout": {
       "skills": {
         "library-evaluation": { "uses": 0, "last_used": null, "sessions": [] },
         "competitive-analysis": { "uses": 0, "last_used": null, "sessions": [] },
-        "technology-radar": { "uses": 0, "last_used": null, "sessions": [] }
+        "technology-radar": { "uses": 0, "last_used": null, "sessions": [] },
+        "enterprise-search-strategy": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
     "strategist": {
@@ -46,7 +51,8 @@
       "skills": {
         "deployment-plan": { "uses": 0, "last_used": null, "sessions": [] },
         "observability-design": { "uses": 0, "last_used": null, "sessions": [] },
-        "cost-analysis": { "uses": 0, "last_used": null, "sessions": [] }
+        "cost-analysis": { "uses": 0, "last_used": null, "sessions": [] },
+        "finops-analysis": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
     "chronicler": {
@@ -119,11 +125,20 @@
         "protocol-analysis": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
+    "foundry": {
+      "skills": {
+        "chip-design-flow": { "uses": 0, "last_used": null, "sessions": [] },
+        "verification-methodology": { "uses": 0, "last_used": null, "sessions": [] },
+        "soc-integration": { "uses": 0, "last_used": null, "sessions": [] },
+        "verilator-simulation": { "uses": 0, "last_used": null, "sessions": [] }
+      }
+    },
     "forge": {
       "skills": {
         "microarch-analysis": { "uses": 0, "last_used": null, "sessions": [] },
         "physical-design-security": { "uses": 0, "last_used": null, "sessions": [] },
-        "rtl-security-review": { "uses": 0, "last_used": null, "sessions": [] }
+        "rtl-security-review": { "uses": 0, "last_used": null, "sessions": [] },
+        "hw-security-signoff": { "uses": 0, "last_used": null, "sessions": [] }
       }
     },
     "prover": {
