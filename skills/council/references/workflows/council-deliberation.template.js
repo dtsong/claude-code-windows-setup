@@ -151,7 +151,7 @@ for (const m of roster) byName[m.name] = m
 
 // Live session page: non-fatal regeneration after each artifact save (F11).
 const scribeNote = scribePath
-  ? `\nAfter saving your file, run this exact command via Bash (non-fatal, it regenerates the live session page): python3 "${scribePath}" "${sessionDir}" || true`
+  ? `\nAfter saving your file, run this exact command via Bash (non-fatal, it regenerates the live session page): { python3 "${scribePath}" "${sessionDir}" 2>/dev/null || python "${scribePath}" "${sessionDir}"; } || true`
   : ''
 
 const identityBlock = (m) => `You are ${m.name}, the ${m.color} Lens.

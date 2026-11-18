@@ -425,7 +425,7 @@ $WORKSPACE/.claude/council/
 
 ### Live Session Page
 
-Every file-creating mode opens `session.html` in your browser at session start: a single page that fills in as the session progresses. Interview Q&A and detail asides, the assembled bench with scores and lens colors, deliberation positions appearing card by card as agents finish, tension pairs, the design verdict, PRD scope, and verification status. The page auto-refreshes every 10 seconds; a deterministic scribe (`render-session.py`, copied into the session dir) regenerates it whenever an agent or the conductor writes an artifact. No server, no dependencies: if python3 or a browser is missing the session degrades to text-only with zero loss (chat always carries a compact summary of every decision, per the engine's Touchpoint Presentation Contract).
+Every file-creating mode opens `session.html` in your browser at session start: a single page that fills in as the session progresses. Interview Q&A and detail asides, the assembled bench with scores and lens colors, deliberation positions appearing card by card as agents finish, tension pairs, the design verdict, PRD scope, and verification status. The page auto-refreshes every 10 seconds; a deterministic scribe (`render-session.py`, copied into the session dir) regenerates it whenever an agent or the conductor writes an artifact. No server, no dependencies: if Python (`python3`, or `python` on Windows) or a browser is missing the session degrades to text-only with zero loss (chat always carries a compact summary of every decision, per the engine's Touchpoint Presentation Contract).
 
 ### Archiving
 

@@ -250,11 +250,11 @@ Every user-facing decision point must be self-contained in chat, and every file-
    cp ~/.claude/skills/council/references/render-session.py "$SESSION_DIR/"
    cp ~/.claude/skills/council/references/session-page.template.html "$SESSION_DIR/"
    # write session-state.json first (schema below), then:
-   python3 "$SESSION_DIR/render-session.py" "$SESSION_DIR" || true
-   open "$SESSION_DIR/session.html" 2>/dev/null || xdg-open "$SESSION_DIR/session.html" 2>/dev/null || echo "Live page: $SESSION_DIR/session.html"
+   { python3 "$SESSION_DIR/render-session.py" "$SESSION_DIR" 2>/dev/null || python "$SESSION_DIR/render-session.py" "$SESSION_DIR"; } || true
+   open "$SESSION_DIR/session.html" 2>/dev/null || xdg-open "$SESSION_DIR/session.html" 2>/dev/null || start "" "$SESSION_DIR/session.html" 2>/dev/null || echo "Live page: $SESSION_DIR/session.html"
    ```
 
-4. **Scribe hooks.** Rerun `python3 "$SESSION_DIR/render-session.py" "$SESSION_DIR" || true` after: each interview round, assembly approval, each deliberation artifact (workflow agents run it themselves via `scribePath`; on teams/sequential backends the conductor runs it between rounds), synthesis, PRD and contract generation, the verification sweep, and cleanup. Update `session-state.json` first at each phase transition.
+4. **Scribe hooks.** Rerun `{ python3 "$SESSION_DIR/render-session.py" "$SESSION_DIR" 2>/dev/null || python "$SESSION_DIR/render-session.py" "$SESSION_DIR"; } || true` after: each interview round, assembly approval, each deliberation artifact (workflow agents run it themselves via `scribePath`; on teams/sequential backends the conductor runs it between rounds), synthesis, PRD and contract generation, the verification sweep, and cleanup. Update `session-state.json` first at each phase transition.
 5. **`session-state.json` schema of record:**
 
    ```json
@@ -912,7 +912,7 @@ Update `$SESSION_DIR/session.md` phase to `planning`.
 **HTML verdict render (Standard / Deep / Guided):** Before the approval question, render the synthesis payload as a self-contained HTML page and open it in the browser:
 
 1. Read the reference template at `~/.claude/skills/council/references/design-verdict.template.html` (structure: masthead with session metadata and lens-color spectrum, two-track plan rails, tension ledger with per-agent lens dots and centered verdicts, risk cards, decision-log table). Fill it from the synthesis payload (overview, tension resolutions, decision log) plus session metadata; substitute the `{{...}}` placeholders and repeat the marked row/card blocks per item. The two-track and risk-card sections are OPTIONAL: fill them only when the payload's decision log carries phased-plan or severity data; otherwise delete them rather than fabricating content or re-reading deliberation files. Use each participating agent's lens color for attribution dots (distinct hex per agent; see the template's color comment).
-2. Write the result to `$SESSION_DIR/design.html` and open it (`open` on macOS, `xdg-open` on Linux).
+2. Write the result to `$SESSION_DIR/design.html` and open it (`open` on macOS, `xdg-open` on Linux, `start ""` on Windows Git Bash).
 3. **Graceful degradation:** if the template is missing, the write fails, or no GUI browser is available, skip the render silently and proceed. The HTML is presentation only; `design.md` remains the artifact of record and `AskUserQuestion` below remains the sole approval mechanism.
 4. Update `session-state.json` (`phase: "verdict"`, `tensionPairs` from the synthesis payload) and rerun the scribe; the live page's Verdict section links to `design.html`.
 
