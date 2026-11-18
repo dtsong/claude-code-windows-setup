@@ -25,7 +25,7 @@ This setup enables:
 - **8 deliberation modes** from quick brainstorm to deep audit
 - **Windows toast notifications** identifying which agent needs attention
 - **Auto-formatting hooks** for code changes
-- **Pre-approved permissions** for 76 common safe commands
+- **Pre-approved permissions** for 71 common safe commands, plus deny rules for destructive commands and secret files
 - **Session persistence** via `/handover` and auto-compaction hooks
 - **Issue-driven execution** via `/looper`, `/implement`, `/ralf`
 - **Project scaffolding** via `/new-python`, `/new-typescript`, `/new-terraform`, `/new-mcp-server`

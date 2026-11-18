@@ -268,8 +268,8 @@ At session start, `CLAUDE.md` instructs Claude to check for recent handover file
 
 The `settings.json` includes a permissions block that pre-approves common safe commands:
 
-- **76 allowed patterns**: Package managers, git, file utilities, build tools, formatters, test runners
-- **9 deny patterns**: Destructive commands (`rm -rf /`, `sudo rm`, `mkfs`, etc.)
+- **71 allowed patterns**: Package managers, git, file utilities, build tools, formatters, test runners
+- **31 deny patterns**: Destructive commands (`rm -rf /`, `sudo rm`, `mkfs`, etc.), outward-facing actions (`gh repo delete`, `gh secret set`, `npm publish`, `curl … | sh`), and reading or editing secrets (`.env*`, `.ssh/`, `.aws/`, `*.pem`, `*.key`, `credentials/`, `secrets/`)
 
 This reduces permission prompts without using `--dangerously-skip-permissions`.
 
