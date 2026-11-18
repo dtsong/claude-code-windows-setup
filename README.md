@@ -198,7 +198,7 @@ Pre-approved safe commands reduce permission prompts without using `--dangerousl
 | `Notification` | `notify.ps1` | Desktop notification when Claude needs input |
 | `Stop` | `stop.ps1` | Notification when Claude completes |
 | `PostToolUse` | `format.ps1` | Auto-format after Write/Edit (Prettier, Black, gofmt, etc.) |
-| `PostToolUse` | `acceptance-gate.ps1` | Quality gate on task completion |
+| `PreToolUse` | `acceptance-gate.ps1` | Quality gate on task completion (blocks with exit 2) |
 | `PreCompact` | `pre-compact-handover.ps1` | Auto-save session context before compaction |
 
 ## Command Reference
