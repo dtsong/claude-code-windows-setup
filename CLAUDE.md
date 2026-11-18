@@ -52,6 +52,8 @@ claude-code-windows-setup/
 │   ├── ralf.md             # Autonomous PRD executor
 │   ├── ship.md             # Post-council pipeline: issues to merged PRs
 │   ├── handover.md         # Session knowledge transfer
+│   ├── careful.md          # Block destructive commands (opt-in hook)
+│   ├── freeze.md           # Block edits to matching files (opt-in hook)
 │   ├── g.md                # Git porcelain
 │   ├── ops.md              # Operations center
 │   ├── new-python.md       # Python project scaffolding
@@ -93,6 +95,8 @@ claude-code-windows-setup/
 │   ├── stop.ps1            # Notification when Claude completes
 │   ├── format.ps1          # Auto-format code after edits
 │   ├── acceptance-gate.ps1 # Quality gate for task completion
+│   ├── careful-mode.ps1    # /careful destructive-command guard (opt-in hook)
+│   ├── freeze-mode.ps1     # /freeze file-edit guard (opt-in hook)
 │   └── pre-compact-handover.ps1  # Auto-save before compaction
 ├── scripts/                # Utility scripts (Verb-Noun.ps1 naming)
 │   ├── Create-Worktrees.ps1
